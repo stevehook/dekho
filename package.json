@@ -6,7 +6,10 @@
     "start": "node app.js"
   },
   "dependencies": {
-    "express": "4.x"
+    "express": "4.x",
+    "sequelize": "~2.0.0-rc1",
+    "sequelize-cli": "~0.3.3",
+    "pg": "~4.1.1"
   },
   "devDependencies": {
     "mocha": "~2.0.1",
