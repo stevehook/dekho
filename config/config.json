@@ -1,23 +1,16 @@
 {
   "development": {
-    "username": "root",
+    "username": "stevehook",
     "password": null,
-    "database": "database_development",
+    "database": "dekho_development",
     "host": "127.0.0.1",
-    "dialect": "mysql"
+    "dialect": "postgres"
   },
   "test": {
-    "username": "root",
+    "username": "stevehook",
     "password": null,
-    "database": "database_test",
+    "database": "dekho_test",
     "host": "127.0.0.1",
-    "dialect": "mysql"
-  },
-  "production": {
-    "username": "root",
-    "password": null,
-    "database": "database_production",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
+    "dialect": "postgres"
   }
 }
