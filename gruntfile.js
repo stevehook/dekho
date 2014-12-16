@@ -4,7 +4,7 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
     env: {
-      test: { NODE_ENV: 'TEST' }
+      test: { NODE_ENV: 'test' }
     },
     cafemocha: {
       test: {

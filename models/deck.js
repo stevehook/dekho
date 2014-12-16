@@ -7,7 +7,7 @@ module.exports = function(sequelize, DataTypes) {
   }, {
     classMethods: {
       associate: function(models) {
-        Desk.hasMany(models.Slide);
+        Deck.hasMany(models.Slide);
       }
     }
   });
