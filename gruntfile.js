@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-cafe-mocha');
   grunt.loadNpmTasks('grunt-env');

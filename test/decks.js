@@ -1,3 +1,5 @@
+'use strict';
+
 var app = require('../app'),
     request = require('supertest'),
     db = require('../models'),

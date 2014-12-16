@@ -1,7 +1,7 @@
-"use strict";
+'use strict';
 
 module.exports = function(sequelize, DataTypes) {
-  var Deck = sequelize.define("Deck", {
+  var Deck = sequelize.define('Deck', {
     title: DataTypes.STRING,
     synopsis: DataTypes.STRING
   }, {
