@@ -9,6 +9,10 @@ app.get('/', function(request, response) {
   response.status(200).json('OK');
 });
 
+app.get('/decks', function(request, response) {
+  response.status(200).json([{ "title": "foo" }]);
+});
+
 db.sequelize.sync().complete(function(err) {
   if (err) {
     throw err[0];
