@@ -30,7 +30,7 @@ module.exports = function(grunt) {
     watch: {
       js: {
         files: ['./{,*/}*.js'],
-        tasks: ['newer:jshint:all'],
+        tasks: ['newer:jshint:all', 'cafemocha:test'],
         options: {
           // livereload: '<%= connect.options.livereload %>'
         }
