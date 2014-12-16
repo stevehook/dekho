@@ -6,9 +6,13 @@ var app = require('../app'),
     expect = require('chai').expect;
 
 describe('GET /decks API', function() {
+  var deckFixtures = [
+    { title: 'Grunt for beginners', synopsis: 'A short presentation about Grunt' },
+    { title: 'Node.js primer', synopsis: 'A short presentation about Node' },
+    { title: 'Ruby on Rails', synopsis: 'A short presentation about Rails' }
+  ];
   beforeEach(function(done) {
-    var deck = db.Deck.build({ title: 'foo' });
-    deck.save().then(function() { done(); });
+    db.Deck.bulkCreate(deckFixtures).then(function() { done(); });
   });
   afterEach(function(done) {
     db.Deck.destroy({}, { truncate: true }).then(function() { done(); });
@@ -25,7 +29,8 @@ describe('GET /decks API', function() {
         .expect('Content-Type', /json/)
         .end(function(err, res) {
           var decks = JSON.parse(res.text);
-          expect(decks[0].title).to.equal('foo');
+          expect(decks.length).to.equal(deckFixtures.length);
+          expect(decks[0].title).to.equal('Grunt for beginners');
           done();
         });
     });

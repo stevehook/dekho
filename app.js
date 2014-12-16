@@ -12,7 +12,9 @@ app.get('/', function(request, response) {
 });
 
 app.get('/decks', function(request, response) {
-  response.status(200).json([{ 'title': 'foo' }]);
+  db.Deck.findAll().then(function(decks) {
+    response.status(200).json(decks);
+  });
 });
 
 db.sequelize.sync().complete(function(err) {
