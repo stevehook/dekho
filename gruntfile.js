@@ -4,7 +4,14 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
     env: {
-      test: { NODE_ENV: 'test' }
+      test: {
+        NODE_ENV: 'test',
+        PORT: 4001
+      },
+      development: {
+        NODE_ENV: 'development',
+        PORT: 4000
+      }
     },
     cafemocha: {
       test: {
