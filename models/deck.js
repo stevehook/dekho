@@ -9,7 +9,8 @@ module.exports = function(sequelize, DataTypes) {
       associate: function(models) {
         Deck.hasMany(models.Slide);
       }
-    }
+    },
+    tableName: 'decks'
   });
 
   return Deck;

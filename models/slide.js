@@ -9,7 +9,8 @@ module.exports = function(sequelize, DataTypes) {
       associate: function(models) {
         Slide.belongsTo(models.Deck);
       }
-    }
+    },
+    tableName: 'slides'
   });
 
   return Slide;

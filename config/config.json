@@ -4,16 +4,25 @@
     "password": null,
     "database": "dekho_development",
     "host": "127.0.0.1",
-    "dialect": "postgres"
+    "dialect": "postgres",
+    "define": {
+      "underscored": true
+    }
   },
   "test": {
     "username": "stevehook",
     "password": null,
     "database": "dekho_test",
     "host": "127.0.0.1",
-    "dialect": "postgres"
+    "dialect": "postgres",
+    "define": {
+      "underscored": true
+    }
   },
   "production": {
-    "use_env_variable": "DATABASE_URL"
+    "use_env_variable": "DATABASE_URL",
+    "define": {
+      "underscored": true
+    }
   }
 }
