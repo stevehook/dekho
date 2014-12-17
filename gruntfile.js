@@ -1,5 +1,7 @@
 'use strict';
 
+var db = require('./models');
+
 module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-cafe-mocha');
   grunt.loadNpmTasks('grunt-env');
@@ -30,7 +32,7 @@ module.exports = function(grunt) {
     watch: {
       js: {
         files: ['./{,*/}*.js'],
-        tasks: ['newer:jshint:all', 'env:test', 'cafemocha:test'],
+        tasks: ['newer:jshint:all', 'env:test', 'sync', 'cafemocha:test'],
         options: {
           // livereload: '<%= connect.options.livereload %>'
         }
@@ -64,7 +66,17 @@ module.exports = function(grunt) {
         src: ['test/{,*/}*.js']
       }
     },
+    sync: {
+      options: {}
+    }
   });
-  grunt.registerTask('test', [ 'env:test', 'cafemocha:test' ]);
+  grunt.registerTask('sync', 'uses sequelize to setup the database schema', function() {
+    var done = this.async();
+    db.sequelize.sync({ force: true }).complete(function(err) {
+      if (err) { throw err[0]; }
+      done();
+    });
+  });
+  grunt.registerTask('test', [ 'env:test', 'sync', 'cafemocha:test' ]);
   grunt.registerTask('serve', [ 'env:development', 'watch' ]);
 };
