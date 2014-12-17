@@ -8,6 +8,7 @@ module.exports = function(sequelize, DataTypes) {
     classMethods: {
       associate: function(models) {
         Deck.hasMany(models.Slide);
+        Deck.belongsTo(models.User);
       }
     },
     tableName: 'decks'
