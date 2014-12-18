@@ -13,11 +13,13 @@ module.exports = function(grunt) {
     env: {
       test: {
         NODE_ENV: 'test',
-        PORT: 4001
+        PORT: 4001,
+        JWT_SECRET: 'thisshouldbearealsecretinproduction'
       },
       development: {
         NODE_ENV: 'development',
-        PORT: 4000
+        PORT: 4000,
+        JWT_SECRET: 'thisshouldbearealsecretinproduction'
       }
     },
     cafemocha: {
