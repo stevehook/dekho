@@ -60,6 +60,31 @@ describe('GET /decks API', function() {
         .set('authorization', 'bearerToken bar')
         .expect(403, done);
     });
-    it('only returns my own decks');
+    describe('with other users', function() {
+      var otherUserFixture = { email: 'alice@example.com', name: 'Alice Roberts' };
+      var otherDeckFixtures = [
+        { title: 'Jave for beginners', synopsis: 'A short presentation about Java' },
+        { title: '.NET primer', synopsis: 'A short presentation about .NET' }
+      ];
+      beforeEach(function(done) {
+        db.User.create(otherUserFixture).then(function(user) {
+          /* jshint camelcase: false */
+          db.Deck.bulkCreate(_.map(otherDeckFixtures, function(deck) { deck.user_id = user.id; return deck; })).then(function() { done(); });
+          /* jshint camelcase: true */
+        });
+      });
+      it('only returns my own decks', function(done) {
+        request(app)
+          .get('/decks')
+          .set('authorization', 'bearerToken foo')
+          .expect('Content-Type', /json/)
+          .end(function(err, res) {
+            var decks = JSON.parse(res.text);
+            expect(decks.length).to.equal(deckFixtures.length);
+            expect(decks[0].title).to.equal('Grunt for beginners');
+            done();
+          });
+      });
+    });
   });
 });
