@@ -1,6 +1,7 @@
 'use strict';
 
-var db = require('../models');
+var db = require('../models'),
+    jwt = require('jsonwebtoken');
 
 var auth = {
   login: function(request, response) {
@@ -8,13 +9,20 @@ var auth = {
       if (user) {
         user.checkPassword(request.body.password, function(err, matched) {
           if (matched) {
-            response.status(200).json(user);
+            response.status(200).json({
+              success: true,
+              data: {
+                name: user.name,
+                email: user.email
+              },
+              token: jwt.sign(user, process.env.JWT_SECRET, { expiresInMinutes: 60 })
+            });
           } else {
-            response.status(403).json({ error: 'Login failed' });
+            response.status(403).json({ success: false, error: 'Login failed' });
           }
         });
       } else {
-        response.status(403).json({ error: 'Login failed' });
+        response.status(403).json({ success: false, error: 'Login failed' });
       }
     });
   }
