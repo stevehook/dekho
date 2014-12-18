@@ -16,7 +16,9 @@ describe('POST /login API', function() {
     });
   });
   afterEach(function(done) {
-    db.User.destroy({}, { truncate: true }).then(function() { done(); });
+    db.Token.destroy({}, { truncate: true }).then(function() {
+      db.User.destroy({}, { truncate: true }).then(function() { done(); });
+    });
   });
 
   describe('with correct credentials', function() {
@@ -39,7 +41,6 @@ describe('POST /login API', function() {
           expect(json.success).to.equal(true);
           expect(json.data.name).to.equal('Bob Roberts');
           expect(json.data.email).to.equal('bob@example.com');
-          console.log(json.token);
           expect(json.token).to.not.be.undefined();
           done();
         });

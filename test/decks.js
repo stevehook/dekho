@@ -7,6 +7,7 @@ var app = require('../app'),
     expect = require('chai').expect;
 
 describe('GET /decks API', function() {
+  var tokenFixture = { token: 'foo' };
   var userFixture = { email: 'bob@example.com', name: 'Bob Roberts' };
   var deckFixtures = [
     { title: 'Grunt for beginners', synopsis: 'A short presentation about Grunt' },
@@ -16,24 +17,30 @@ describe('GET /decks API', function() {
   beforeEach(function(done) {
     db.User.create(userFixture).then(function(user) {
       /* jshint camelcase: false */
-      db.Deck.bulkCreate(_.map(deckFixtures, function(deck) { deck.user_id = user.id; return deck; })).then(function() { done(); });
+      db.Token.create(_.extend(tokenFixture, { user_id: user.id })).then(function() {
+        db.Deck.bulkCreate(_.map(deckFixtures, function(deck) { deck.user_id = user.id; return deck; })).then(function() { done(); });
+      });
       /* jshint camelcase: true */
     });
   });
   afterEach(function(done) {
     db.Deck.destroy({}, { truncate: true }).then(function() {
-      db.User.destroy({}, { truncate: true }).then(function() { done(); });
+      db.Token.destroy({}, { truncate: true }).then(function() {
+        db.User.destroy({}, { truncate: true }).then(function() { done(); });
+      });
     });
   });
   describe('when requesting /decks', function() {
     it('responds with success', function(done) {
       request(app)
         .get('/decks')
+        .set('authorization', 'bearerToken foo')
         .expect(200, done);
     });
     it('returns a list of my decks in JSON', function(done) {
       request(app)
         .get('/decks')
+        .set('authorization', 'bearerToken foo')
         .expect('Content-Type', /json/)
         .end(function(err, res) {
           var decks = JSON.parse(res.text);
@@ -42,5 +49,17 @@ describe('GET /decks API', function() {
           done();
         });
     });
+    it('fails when I do not have a bearer token header', function(done) {
+      request(app)
+        .get('/decks')
+        .expect(403, done);
+    });
+    it('fails when I the wrong bearer token in a header', function(done) {
+      request(app)
+        .get('/decks')
+        .set('authorization', 'bearerToken bar')
+        .expect(403, done);
+    });
+    it('only returns my own decks');
   });
 });
