@@ -6,10 +6,13 @@ var app = require('../app'),
     // expect = require('chai').expect;
 
 describe('POST /login API', function() {
-  var userFixture = { email: 'bob@example.com', name: 'Bob Roberts', password: 'secret' };
+  var userFixture = { email: 'bob@example.com', name: 'Bob Roberts' };
   beforeEach(function(done) {
-    db.User.create(userFixture).then(function() {
-      done();
+    var user = db.User.build(userFixture);
+    user.setPassword('secret', function() {
+      user.save().then(function() {
+        done();
+      });
     });
   });
   afterEach(function(done) {
