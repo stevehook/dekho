@@ -2,6 +2,9 @@
   "name": "dekho",
   "version": "0.0.1",
   "private": true,
+  "engines": {
+    "node": "0.10.x"
+  },
   "scripts": {
     "start": "node app.js"
   },
@@ -9,7 +12,8 @@
     "express": "4.x",
     "sequelize": "~2.0.0-rc1",
     "sequelize-cli": "~0.3.3",
-    "pg": "~4.1.1"
+    "pg": "~4.1.1",
+    "lodash": "~2.4.1"
   },
   "devDependencies": {
     "mocha": "~2.0.1",
