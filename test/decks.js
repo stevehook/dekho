@@ -62,9 +62,7 @@ describe('GET /decks API', function() {
       beforeEach(function(done) {
         var yesterday = new Date();
         yesterday.setDate(yesterday.getDate() - 1);
-        /* jshint camelcase: false */
-        db.sequelize.query('UPDATE tokens SET updated_at = ?', null, { raw: true }, [yesterday.toISOString()]).success(function() {
-        /* jshint camelcase: true */
+        db.sequelize.query('UPDATE tokens SET "updatedAt" = ?', null, { raw: true }, [yesterday.toISOString()]).success(function() {
           done();
         });
       });
