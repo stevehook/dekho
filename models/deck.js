@@ -7,18 +7,18 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       allowEmpty: false
     },
-    synopsis: DataTypes.STRING,
-    /* jshint camelcase: false */
-    user_id: {
-    /* jshint camelcase: true */
-      type: DataTypes.INTEGER,
-      allowNull: false
-    }
+    synopsis: DataTypes.STRING
   }, {
     classMethods: {
       associate: function(models) {
         Deck.hasMany(models.Slide);
-        Deck.belongsTo(models.User);
+        Deck.belongsTo(models.User, {
+          foreignKey: {
+            name: 'userId',
+            type: DataTypes.INTEGER,
+            allowNull: false
+          }
+        });
       }
     },
     tableName: 'decks'

@@ -16,11 +16,9 @@ describe('GET /decks API', function() {
   ];
   beforeEach(function(done) {
     db.User.create(userFixture).then(function(user) {
-      /* jshint camelcase: false */
-      db.Token.create(_.extend(tokenFixture, { user_id: user.id })).then(function() {
-        db.Deck.bulkCreate(_.map(deckFixtures, function(deck) { deck.user_id = user.id; return deck; })).then(function() { done(); });
+      db.Token.create(_.extend(tokenFixture, { userId: user.id })).then(function() {
+        db.Deck.bulkCreate(_.map(deckFixtures, function(deck) { deck.userId = user.id; return deck; })).then(function() { done(); });
       });
-      /* jshint camelcase: true */
     });
   });
   afterEach(function(done) {
@@ -54,23 +52,36 @@ describe('GET /decks API', function() {
         .get('/decks')
         .expect(403, done);
     });
-    it('fails when I the wrong bearer token in a header', function(done) {
+    it('fails when I have an invalid bearer token', function(done) {
       request(app)
         .get('/decks')
         .set('authorization', 'bearerToken bar')
         .expect(403, done);
     });
+    describe('when my bearer token is out of date', function() {
+      beforeEach(function(done) {
+        var yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+        db.sequelize.query('UPDATE tokens SET "updatedAt" = ?', null, { raw: true }, [yesterday.toISOString()]).success(function() {
+          done();
+        });
+      });
+      it('fails when I have an out of date bearer token', function(done) {
+        request(app)
+          .get('/decks')
+          .set('authorization', 'bearerToken foo')
+          .expect(403, done);
+      });
+    });
     describe('with other users', function() {
       var otherUserFixture = { email: 'alice@example.com', name: 'Alice Roberts' };
       var otherDeckFixtures = [
-        { title: 'Jave for beginners', synopsis: 'A short presentation about Java' },
+        { title: 'Java for beginners', synopsis: 'A short presentation about Java' },
         { title: '.NET primer', synopsis: 'A short presentation about .NET' }
       ];
       beforeEach(function(done) {
         db.User.create(otherUserFixture).then(function(user) {
-          /* jshint camelcase: false */
-          db.Deck.bulkCreate(_.map(otherDeckFixtures, function(deck) { deck.user_id = user.id; return deck; })).then(function() { done(); });
-          /* jshint camelcase: true */
+          db.Deck.bulkCreate(_.map(otherDeckFixtures, function(deck) { deck.userId = user.id; return deck; })).then(function() { done(); });
         });
       });
       it('only returns my own decks', function(done) {
