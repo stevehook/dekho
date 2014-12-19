@@ -4,9 +4,7 @@ var db = require('../models');
 
 var decks = {
   index: function(request, response) {
-    /* jshint camelcase: false */
-    db.Deck.findAll({ where: { user_id: request.currentUser.id } }).then(function(decks) {
-    /* jshint camelcase: true */
+    db.Deck.findAll({ where: { userId: request.currentUser.id } }).then(function(decks) {
       response.status(200).json(decks);
     });
   }

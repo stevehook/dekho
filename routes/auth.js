@@ -11,9 +11,7 @@ var auth = {
           if (matched) {
             var tokenString = jwt.sign(user, process.env.JWT_SECRET, { expiresInMinutes: 60 });
             db.Token.create({
-              /* jshint camelcase: false */
-              user_id: user.id,
-              /* jshint camelcase: true */
+              userId: user.id,
               token: tokenString
             }).then(function(token) {
               response.status(200).json({

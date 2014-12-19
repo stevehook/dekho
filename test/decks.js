@@ -16,11 +16,9 @@ describe('GET /decks API', function() {
   ];
   beforeEach(function(done) {
     db.User.create(userFixture).then(function(user) {
-      /* jshint camelcase: false */
-      db.Token.create(_.extend(tokenFixture, { user_id: user.id })).then(function() {
-        db.Deck.bulkCreate(_.map(deckFixtures, function(deck) { deck.user_id = user.id; return deck; })).then(function() { done(); });
+      db.Token.create(_.extend(tokenFixture, { userId: user.id })).then(function() {
+        db.Deck.bulkCreate(_.map(deckFixtures, function(deck) { deck.userId = user.id; return deck; })).then(function() { done(); });
       });
-      /* jshint camelcase: true */
     });
   });
   afterEach(function(done) {
@@ -80,14 +78,12 @@ describe('GET /decks API', function() {
     describe('with other users', function() {
       var otherUserFixture = { email: 'alice@example.com', name: 'Alice Roberts' };
       var otherDeckFixtures = [
-        { title: 'Jave for beginners', synopsis: 'A short presentation about Java' },
+        { title: 'Java for beginners', synopsis: 'A short presentation about Java' },
         { title: '.NET primer', synopsis: 'A short presentation about .NET' }
       ];
       beforeEach(function(done) {
         db.User.create(otherUserFixture).then(function(user) {
-          /* jshint camelcase: false */
-          db.Deck.bulkCreate(_.map(otherDeckFixtures, function(deck) { deck.user_id = user.id; return deck; })).then(function() { done(); });
-          /* jshint camelcase: true */
+          db.Deck.bulkCreate(_.map(otherDeckFixtures, function(deck) { deck.userId = user.id; return deck; })).then(function() { done(); });
         });
       });
       it('only returns my own decks', function(done) {
