@@ -54,11 +54,28 @@ describe('GET /decks API', function() {
         .get('/decks')
         .expect(403, done);
     });
-    it('fails when I the wrong bearer token in a header', function(done) {
+    it('fails when I have an invalid bearer token', function(done) {
       request(app)
         .get('/decks')
         .set('authorization', 'bearerToken bar')
         .expect(403, done);
+    });
+    describe('when my bearer token is out of date', function() {
+      beforeEach(function(done) {
+        var yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+        /* jshint camelcase: false */
+        db.sequelize.query('UPDATE tokens SET updated_at = ?', null, { raw: true }, [yesterday.toISOString()]).success(function() {
+        /* jshint camelcase: true */
+          done();
+        });
+      });
+      it('fails when I have an out of date bearer token', function(done) {
+        request(app)
+          .get('/decks')
+          .set('authorization', 'bearerToken foo')
+          .expect(403, done);
+      });
     });
     describe('with other users', function() {
       var otherUserFixture = { email: 'alice@example.com', name: 'Alice Roberts' };
