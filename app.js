@@ -22,6 +22,7 @@ app.get('/', function(request, response) {
   response.status(200).json('OK');
 });
 app.get('/decks', authenticate, decks.index);
+app.post('/decks', authenticate, decks.create);
 app.post('/login', auth.login);
 
 http.createServer(app).listen(app.get('port'), function() {

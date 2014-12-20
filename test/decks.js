@@ -21,7 +21,17 @@ describe('GET /decks API', function() {
   afterEach(function(done) {
     helpers.cleanUp(function() { done(); });
   });
-  describe('when requesting /decks', function() {
+
+  describe('POST /decks', function() {
+    it('responds with success', function(done) {
+      request(app)
+        .post('/decks')
+        .set('authorization', 'bearerToken foo')
+        .expect(200, done);
+    });
+  });
+
+  describe('GET /decks', function() {
     it('responds with success', function(done) {
       request(app)
         .get('/decks')
