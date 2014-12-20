@@ -7,7 +7,13 @@ module.exports = function(sequelize, DataTypes) {
   }, {
     classMethods: {
       associate: function(models) {
-        Slide.belongsTo(models.Deck);
+        Slide.belongsTo(models.Deck, {
+          foreignKey: {
+            name: 'deckId',
+            type: DataTypes.INTEGER,
+            allowNull: false
+          }
+        });
       }
     },
     tableName: 'slides'
