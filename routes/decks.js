@@ -10,7 +10,11 @@ var decks = {
   },
 
   create: function(request, response) {
-    response.status(200).json({});
+    var attributes = request.body;
+    attributes.userId = request.currentUser.id;
+    db.Deck.create(attributes).then(function(deck) {
+      response.status(200).json(deck);
+    });
   }
 };
 

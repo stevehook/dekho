@@ -7,15 +7,13 @@ var app = require('../app'),
     helpers = require('./specHelper'),
     expect = require('chai').expect;
 
-describe('GET /decks API', function() {
-  var deckFixtures = [
-    { title: 'Grunt for beginners', synopsis: 'A short presentation about Grunt' },
-    { title: 'Node.js primer', synopsis: 'A short presentation about Node' },
-    { title: 'Ruby on Rails', synopsis: 'A short presentation about Rails' }
-  ];
+describe('decks API', function() {
+  var user;
+
   beforeEach(function(done) {
-    helpers.setupUser({}, function(err, user) {
-      db.Deck.bulkCreate(_.map(deckFixtures, function(deck) { deck.userId = user.id; return deck; })).then(function() { done(); });
+    helpers.setupUser({}, function(err, newUser) {
+      user = newUser;
+      done();
     });
   });
   afterEach(function(done) {
@@ -23,15 +21,41 @@ describe('GET /decks API', function() {
   });
 
   describe('POST /decks', function() {
+    var newDeck = { title: 'Grunt for beginners', synopsis: 'A short presentation about Grunt' };
+
     it('responds with success', function(done) {
       request(app)
         .post('/decks')
+        .send(newDeck)
         .set('authorization', 'bearerToken foo')
         .expect(200, done);
     });
+
+    it('creates a new deck', function(done) {
+      request(app)
+        .post('/decks')
+        .send(newDeck)
+        .set('authorization', 'bearerToken foo')
+        .end(function() {
+          db.Deck.count().then(function(count) {
+            expect(count).to.equal(1);
+            done();
+          });
+        });
+    });
+    it('returns the new deck');
   });
 
   describe('GET /decks', function() {
+    var deckFixtures = [
+      { title: 'Grunt for beginners', synopsis: 'A short presentation about Grunt' },
+      { title: 'Node.js primer', synopsis: 'A short presentation about Node' },
+      { title: 'Ruby on Rails', synopsis: 'A short presentation about Rails' }
+    ];
+    beforeEach(function(done) {
+      db.Deck.bulkCreate(_.map(deckFixtures, function(deck) { deck.userId = user.id; return deck; })).then(function() { done(); });
+    });
+
     it('responds with success', function(done) {
       request(app)
         .get('/decks')
