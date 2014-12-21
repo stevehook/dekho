@@ -13,7 +13,7 @@ var decks = {
     var attributes = request.body;
     attributes.userId = request.currentUser.id;
     db.Deck.create(attributes).then(function(deck) {
-      response.status(200).json(deck);
+      response.status(201).json(deck);
     });
   },
 

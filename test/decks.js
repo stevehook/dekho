@@ -78,7 +78,7 @@ describe('decks API', function() {
         .post('/decks')
         .send(newDeck)
         .set('authorization', 'bearerToken foo')
-        .expect(200, done);
+        .expect(201, done);
     });
 
     it('creates a new deck', function(done) {
