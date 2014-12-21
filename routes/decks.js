@@ -7,6 +7,38 @@ var decks = {
     db.Deck.findAll({ where: { userId: request.currentUser.id } }).then(function(decks) {
       response.status(200).json(decks);
     });
+  },
+
+  create: function(request, response) {
+    var attributes = request.body;
+    attributes.userId = request.currentUser.id;
+    db.Deck.create(attributes).then(function(deck) {
+      response.status(201).json(deck);
+    });
+  },
+
+  destroy: function(request, response) {
+    db.Deck.findOne({ where: { id: request.params.id, userId: request.currentUser.id } }).then(function(deck) {
+      if (deck) {
+        deck.destroy().then(function() {
+          response.status(200).json(deck);
+        });
+      } else {
+        response.status(404).json({});
+      }
+    });
+  },
+
+  update: function(request, response) {
+    db.Deck.findOne({ where: { id: request.params.id, userId: request.currentUser.id } }).then(function(deck) {
+      if (deck) {
+        deck.updateAttributes(request.body).then(function() {
+          response.status(200).json(deck);
+        });
+      } else {
+        response.status(404).json({});
+      }
+    });
   }
 };
 

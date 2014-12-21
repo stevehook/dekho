@@ -7,21 +7,187 @@ var app = require('../app'),
     helpers = require('./specHelper'),
     expect = require('chai').expect;
 
-describe('GET /decks API', function() {
-  var deckFixtures = [
-    { title: 'Grunt for beginners', synopsis: 'A short presentation about Grunt' },
-    { title: 'Node.js primer', synopsis: 'A short presentation about Node' },
-    { title: 'Ruby on Rails', synopsis: 'A short presentation about Rails' }
-  ];
+describe('decks API', function() {
+  var user;
+
   beforeEach(function(done) {
-    helpers.setupUser({}, function(err, user) {
-      db.Deck.bulkCreate(_.map(deckFixtures, function(deck) { deck.userId = user.id; return deck; })).then(function() { done(); });
+    helpers.setupUser({}, function(err, newUser) {
+      user = newUser;
+      done();
     });
   });
   afterEach(function(done) {
     helpers.cleanUp(function() { done(); });
   });
-  describe('when requesting /decks', function() {
+
+  describe('POST /decks/:id', function() {
+    var deckFixture = { title: 'Grunt for beginners', synopsis: 'A short presentation about Grunt' };
+    var deck;
+
+    beforeEach(function(done) {
+      db.Deck.create(_.extend(deckFixture, { userId: user.id })).then(function(newDeck) {
+        deck = newDeck;
+        done();
+      });
+    });
+
+    it('responds with success', function(done) {
+      request(app)
+        .post('/decks/' + deck.id)
+        .send({ title: 'Grunt for experts', synopsis: 'A fairly long presentation about Grunt' })
+        .set('authorization', 'bearerToken foo')
+        .expect(200, done);
+    });
+
+    it('updates the given deck', function(done) {
+      request(app)
+        .post('/decks/' + deck.id)
+        .send({ title: 'Grunt for experts', synopsis: 'A fairly long presentation about Grunt' })
+        .set('authorization', 'bearerToken foo')
+        .end(function() {
+          db.Deck.find(deck.id).then(function(deckPersisted) {
+            expect(deckPersisted.title).to.equal('Grunt for experts');
+            expect(deckPersisted.synopsis).to.equal('A fairly long presentation about Grunt');
+            done();
+          });
+        });
+    });
+
+    it('returns the updated deck', function(done) {
+      request(app)
+        .post('/decks/' + deck.id)
+        .send({ title: 'Grunt for experts', synopsis: 'A fairly long presentation about Grunt' })
+        .set('authorization', 'bearerToken foo')
+        .end(function(err, res) {
+          var deckReturned = JSON.parse(res.text);
+          expect(deckReturned.id).to.equal(deck.id);
+          expect(deckReturned.title).to.equal('Grunt for experts');
+          expect(deckReturned.synopsis).to.equal('A fairly long presentation about Grunt');
+          done();
+        });
+    });
+
+    describe('with other users', function() {
+      var otherUserFixture = { email: 'alice@example.com', name: 'Alice Roberts' };
+      var otherDeckFixture = { title: 'Java for beginners', synopsis: 'A short presentation about Java' };
+      var otherDeck;
+      beforeEach(function(done) {
+        helpers.setupUser(otherUserFixture, function(err, user) {
+          db.Deck.create(_.extend(otherDeckFixture, { userId: user.id })).then(function(deck) {
+            otherDeck = deck;
+            done();
+          });
+        });
+      });
+
+      it('returns 404 when we try to update another users deck', function(done) {
+        request(app)
+          .post('/decks/' + otherDeck.id)
+          .set('authorization', 'bearerToken foo')
+          .expect(404, done);
+        });
+    });
+  });
+
+  describe('DELETE /decks/:id', function() {
+    var deckFixture = { title: 'Grunt for beginners', synopsis: 'A short presentation about Grunt' };
+    var deck;
+    beforeEach(function(done) {
+      db.Deck.create(_.extend(deckFixture, { userId: user.id })).then(function(newDeck) {
+        deck = newDeck;
+        done();
+      });
+    });
+
+    it('responds with success', function(done) {
+      request(app)
+        .delete('/decks/' + deck.id)
+        .set('authorization', 'bearerToken foo')
+        .expect(200, done);
+    });
+    it('deletes the given deck', function(done) {
+      request(app)
+        .delete('/decks/' + deck.id)
+        .set('authorization', 'bearerToken foo')
+        .end(function() {
+          db.Deck.count().then(function(count) {
+            expect(count).to.equal(0);
+            done();
+          });
+        });
+    });
+
+    describe('with other users', function() {
+      var otherUserFixture = { email: 'alice@example.com', name: 'Alice Roberts' };
+      var otherDeckFixture = { title: 'Java for beginners', synopsis: 'A short presentation about Java' };
+      var otherDeck;
+      beforeEach(function(done) {
+        helpers.setupUser(otherUserFixture, function(err, user) {
+          db.Deck.create(_.extend(otherDeckFixture, { userId: user.id })).then(function(deck) {
+            otherDeck = deck;
+            done();
+          });
+        });
+      });
+
+      it('returns 404 when we try to delete another users deck', function(done) {
+        request(app)
+          .delete('/decks/' + otherDeck.id)
+          .set('authorization', 'bearerToken foo')
+          .expect(404, done);
+        });
+    });
+  });
+
+  describe('POST /decks', function() {
+    var newDeck = { title: 'Grunt for beginners', synopsis: 'A short presentation about Grunt' };
+
+    it('responds with success', function(done) {
+      request(app)
+        .post('/decks')
+        .send(newDeck)
+        .set('authorization', 'bearerToken foo')
+        .expect(201, done);
+    });
+
+    it('creates a new deck', function(done) {
+      request(app)
+        .post('/decks')
+        .send(newDeck)
+        .set('authorization', 'bearerToken foo')
+        .end(function() {
+          db.Deck.count({ where: { userId: user.id } }).then(function(count) {
+            expect(count).to.equal(1);
+            done();
+          });
+        });
+    });
+
+    it('returns the new deck', function(done) {
+      request(app)
+        .post('/decks')
+        .send(newDeck)
+        .set('authorization', 'bearerToken foo')
+        .end(function(err, res) {
+          var deck = JSON.parse(res.text);
+          expect(deck.title).to.equal('Grunt for beginners');
+          expect(deck.synopsis).to.equal('A short presentation about Grunt');
+          expect(deck.userId).to.equal(user.id);
+          done();
+        });
+    });
+  });
+
+  describe('GET /decks', function() {
+    var deckFixtures = [
+      { title: 'Grunt for beginners', synopsis: 'A short presentation about Grunt' },
+      { title: 'Node.js primer', synopsis: 'A short presentation about Node' },
+      { title: 'Ruby on Rails', synopsis: 'A short presentation about Rails' }
+    ];
+    beforeEach(function(done) {
+      db.Deck.bulkCreate(_.map(deckFixtures, function(deck) { deck.userId = user.id; return deck; })).then(function() { done(); });
+    });
+
     it('responds with success', function(done) {
       request(app)
         .get('/decks')
