@@ -93,7 +93,20 @@ describe('decks API', function() {
           });
         });
     });
-    it('returns the new deck');
+
+    it('returns the new deck', function(done) {
+      request(app)
+        .post('/decks')
+        .send(newDeck)
+        .set('authorization', 'bearerToken foo')
+        .end(function(err, res) {
+          var deck = JSON.parse(res.text);
+          expect(deck.title).to.equal('Grunt for beginners');
+          expect(deck.synopsis).to.equal('A short presentation about Grunt');
+          expect(deck.userId).to.equal(user.id);
+          done();
+        });
+    });
   });
 
   describe('GET /decks', function() {
