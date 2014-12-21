@@ -20,6 +20,75 @@ describe('decks API', function() {
     helpers.cleanUp(function() { done(); });
   });
 
+  describe('POST /decks/:id', function() {
+    var deckFixture = { title: 'Grunt for beginners', synopsis: 'A short presentation about Grunt' };
+    var deck;
+
+    beforeEach(function(done) {
+      db.Deck.create(_.extend(deckFixture, { userId: user.id })).then(function(newDeck) {
+        deck = newDeck;
+        done();
+      });
+    });
+
+    it('responds with success', function(done) {
+      request(app)
+        .post('/decks/' + deck.id)
+        .send({ title: 'Grunt for experts', synopsis: 'A fairly long presentation about Grunt' })
+        .set('authorization', 'bearerToken foo')
+        .expect(200, done);
+    });
+
+    it('updates the given deck', function(done) {
+      request(app)
+        .post('/decks/' + deck.id)
+        .send({ title: 'Grunt for experts', synopsis: 'A fairly long presentation about Grunt' })
+        .set('authorization', 'bearerToken foo')
+        .end(function() {
+          db.Deck.find(deck.id).then(function(deckPersisted) {
+            expect(deckPersisted.title).to.equal('Grunt for experts');
+            expect(deckPersisted.synopsis).to.equal('A fairly long presentation about Grunt');
+            done();
+          });
+        });
+    });
+
+    it('returns the updated deck', function(done) {
+      request(app)
+        .post('/decks/' + deck.id)
+        .send({ title: 'Grunt for experts', synopsis: 'A fairly long presentation about Grunt' })
+        .set('authorization', 'bearerToken foo')
+        .end(function(err, res) {
+          var deckReturned = JSON.parse(res.text);
+          expect(deckReturned.id).to.equal(deck.id);
+          expect(deckReturned.title).to.equal('Grunt for experts');
+          expect(deckReturned.synopsis).to.equal('A fairly long presentation about Grunt');
+          done();
+        });
+    });
+
+    describe('with other users', function() {
+      var otherUserFixture = { email: 'alice@example.com', name: 'Alice Roberts' };
+      var otherDeckFixture = { title: 'Java for beginners', synopsis: 'A short presentation about Java' };
+      var otherDeck;
+      beforeEach(function(done) {
+        helpers.setupUser(otherUserFixture, function(err, user) {
+          db.Deck.create(_.extend(otherDeckFixture, { userId: user.id })).then(function(deck) {
+            otherDeck = deck;
+            done();
+          });
+        });
+      });
+
+      it('returns 404 when we try to update another users deck', function(done) {
+        request(app)
+          .post('/decks/' + otherDeck.id)
+          .set('authorization', 'bearerToken foo')
+          .expect(404, done);
+        });
+    });
+  });
+
   describe('DELETE /decks/:id', function() {
     var deckFixture = { title: 'Grunt for beginners', synopsis: 'A short presentation about Grunt' };
     var deck;

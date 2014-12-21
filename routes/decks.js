@@ -27,6 +27,18 @@ var decks = {
         response.status(404).json({});
       }
     });
+  },
+
+  update: function(request, response) {
+    db.Deck.findOne({ where: { id: request.params.id, userId: request.currentUser.id } }).then(function(deck) {
+      if (deck) {
+        deck.updateAttributes(request.body).then(function() {
+          response.status(200).json(deck);
+        });
+      } else {
+        response.status(404).json({});
+      }
+    });
   }
 };
 
