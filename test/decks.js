@@ -47,7 +47,6 @@ describe('decks API', function() {
           });
         });
     });
-    it('returns the deleted deck');
 
     describe('with other users', function() {
       var otherUserFixture = { email: 'alice@example.com', name: 'Alice Roberts' };
@@ -88,7 +87,7 @@ describe('decks API', function() {
         .send(newDeck)
         .set('authorization', 'bearerToken foo')
         .end(function() {
-          db.Deck.count().then(function(count) {
+          db.Deck.count({ where: { userId: user.id } }).then(function(count) {
             expect(count).to.equal(1);
             done();
           });
