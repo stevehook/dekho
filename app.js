@@ -23,6 +23,7 @@ app.get('/', function(request, response) {
 });
 app.get('/decks', authenticate, decks.index);
 app.post('/decks', authenticate, decks.create);
+app.delete('/decks/:id', authenticate, decks.destroy);
 app.post('/login', auth.login);
 
 http.createServer(app).listen(app.get('port'), function() {

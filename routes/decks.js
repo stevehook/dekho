@@ -15,6 +15,18 @@ var decks = {
     db.Deck.create(attributes).then(function(deck) {
       response.status(200).json(deck);
     });
+  },
+
+  destroy: function(request, response) {
+    db.Deck.find(request.params.id).then(function(deck) {
+      if (deck) {
+        deck.destroy().then(function() {
+          response.status(200).json({});
+        });
+      } else {
+        response.status(404).json({});
+      }
+    });
   }
 };
 

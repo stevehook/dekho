@@ -20,6 +20,37 @@ describe('decks API', function() {
     helpers.cleanUp(function() { done(); });
   });
 
+  describe('DELETE /decks/:id', function() {
+    var deckFixture = { title: 'Grunt for beginners', synopsis: 'A short presentation about Grunt' };
+    var deck;
+    beforeEach(function(done) {
+      db.Deck.create(_.extend(deckFixture, { userId: user.id })).then(function(newDeck) {
+        deck = newDeck;
+        done();
+      });
+    });
+
+    it('responds with success', function(done) {
+      request(app)
+        .delete('/decks/' + deck.id)
+        .set('authorization', 'bearerToken foo')
+        .expect(200, done);
+    });
+    it('deletes the given deck', function(done) {
+      request(app)
+        .delete('/decks/' + deck.id)
+        .set('authorization', 'bearerToken foo')
+        .end(function() {
+          db.Deck.count().then(function(count) {
+            expect(count).to.equal(0);
+            done();
+          });
+        });
+    });
+    it('returns the deleted deck');
+    it('returns 404 when we try to delete another users deck');
+  });
+
   describe('POST /decks', function() {
     var newDeck = { title: 'Grunt for beginners', synopsis: 'A short presentation about Grunt' };
 
