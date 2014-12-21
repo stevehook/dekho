@@ -18,10 +18,10 @@ var decks = {
   },
 
   destroy: function(request, response) {
-    db.Deck.find(request.params.id).then(function(deck) {
+    db.Deck.findOne({ where: { id: request.params.id, userId: request.currentUser.id } }).then(function(deck) {
       if (deck) {
         deck.destroy().then(function() {
-          response.status(200).json({});
+          response.status(200).json(deck);
         });
       } else {
         response.status(404).json({});

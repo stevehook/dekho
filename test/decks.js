@@ -48,7 +48,27 @@ describe('decks API', function() {
         });
     });
     it('returns the deleted deck');
-    it('returns 404 when we try to delete another users deck');
+
+    describe('with other users', function() {
+      var otherUserFixture = { email: 'alice@example.com', name: 'Alice Roberts' };
+      var otherDeckFixture = { title: 'Java for beginners', synopsis: 'A short presentation about Java' };
+      var otherDeck;
+      beforeEach(function(done) {
+        helpers.setupUser(otherUserFixture, function(err, user) {
+          db.Deck.create(_.extend(otherDeckFixture, { userId: user.id })).then(function(deck) {
+            otherDeck = deck;
+            done();
+          });
+        });
+      });
+
+      it('returns 404 when we try to delete another users deck', function(done) {
+        request(app)
+          .delete('/decks/' + otherDeck.id)
+          .set('authorization', 'bearerToken foo')
+          .expect(404, done);
+        });
+    });
   });
 
   describe('POST /decks', function() {
