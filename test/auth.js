@@ -3,7 +3,48 @@
 var app = require('../app'),
     request = require('supertest'),
     db = require('../models'),
+    helpers = require('./specHelper'),
     expect = require('chai').expect;
+
+describe('GET /login', function() {
+  var user;
+
+  beforeEach(function(done) {
+    helpers.setupUser({}, function(err, newUser) {
+      user = newUser;
+      done();
+    });
+  });
+  afterEach(function(done) {
+    helpers.cleanUp(function() { done(); });
+  });
+
+  it('returns success when I provide a valid token', function(done) {
+    request(app)
+      .get('/login')
+      .set('authorization', 'bearerToken foo')
+      .expect(200, done);
+  });
+
+  it('returns current session details when I provide a valid token', function(done) {
+    request(app)
+      .get('/login')
+      .set('authorization', 'bearerToken foo')
+      .end(function(err, res) {
+        var json = JSON.parse(res.text);
+        expect(json.name).to.equal('Bob Roberts');
+        expect(json.email).to.equal('bob@example.com');
+        done();
+      });
+  });
+
+  it('returns unauthorized when I provide an invalid token', function(done) {
+    request(app)
+      .get('/login')
+      .set('authorization', 'bearerToken bar')
+      .expect(403, done);
+  });
+});
 
 describe('POST /login API', function() {
   var userFixture = { email: 'bob@example.com', name: 'Bob Roberts' };

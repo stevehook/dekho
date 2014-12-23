@@ -31,6 +31,13 @@ var auth = {
         response.status(403).json({ success: false, error: 'Login failed' });
       }
     });
+  },
+
+  show: function(request, response) {
+    response.status(200).json({
+      name: request.currentUser.name,
+      email: request.currentUser.email
+    });
   }
 };
 

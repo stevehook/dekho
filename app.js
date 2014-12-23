@@ -26,6 +26,7 @@ app.post('/decks', authenticate, decks.create);
 app.post('/decks/:id', authenticate, decks.update);
 app.delete('/decks/:id', authenticate, decks.destroy);
 app.post('/login', auth.login);
+app.get('/login', authenticate, auth.show);
 
 http.createServer(app).listen(app.get('port'), function() {
   console.log('Express server listening on port ' + app.get('port'));
