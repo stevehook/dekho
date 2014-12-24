@@ -1,6 +1,6 @@
 'use strict';
 
-var db = require('./models');
+var db = require('./server/models');
 
 module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-cafe-mocha');
@@ -24,7 +24,7 @@ module.exports = function(grunt) {
     },
     cafemocha: {
       test: {
-        src: 'test/*.js',
+        src: 'server/test/*.js',
         options: {
           ui: 'bdd',
           reporter: 'spec'
@@ -44,9 +44,9 @@ module.exports = function(grunt) {
         //   livereload: '<%= connect.options.livereload %>'
         // },
         files: [
-          'public/{,*/}*.html',
-          'public/styles/{,*/}*.css',
-          'public/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
+          'server/public/{,*/}*.html',
+          'server/public/styles/{,*/}*.css',
+          'server/public/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
         ]
       }
     },
@@ -63,9 +63,9 @@ module.exports = function(grunt) {
       },
       test: {
         options: {
-          jshintrc: 'test/.jshintrc'
+          jshintrc: 'server/test/.jshintrc'
         },
-        src: ['test/{,*/}*.js']
+        src: ['server/test/{,*/}*.js']
       }
     },
     sync: {
