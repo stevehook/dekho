@@ -6,6 +6,7 @@ var express = require('express'),
     decks = require('./routes/decks'),
     authenticate = require('./lib/authenticate'),
     auth = require('./routes/auth'),
+    path = require('path'),
     app = express();
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -18,8 +19,26 @@ app.use(function(req, res, next) {
 });
 app.set('port', process.env.PORT || 4000);
 
+// Environment specific config
+// TODO: Move this to a separate file
+var config = {
+  env: process.env.NODE_ENV,
+  root: path.normalize(__dirname + '/..')
+};
+var env = config.env;
+
+if ('development' === env || 'test' === env) {
+  // app.use(require('connect-livereload')());
+  app.use(express.static(path.join(config.root, 'client')));
+  app.set('appPath', 'client');
+  // app.use(errorHandler()); // Error handler - has to be last
+} else if ('production' === env) {
+  // TODO:
+}
+
 app.get('/', function(request, response) {
-  response.status(200).json('OK');
+  console.log(path.join(config.root, 'client') + '/index.html');
+  response.sendFile(path.join(config.root, 'client') + '/index.html');
 });
 app.get('/decks', authenticate, decks.index);
 app.post('/decks', authenticate, decks.create);
