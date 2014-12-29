@@ -6,6 +6,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-newer');
+  grunt.loadNpmTasks('grunt-karma');
 
   grunt.initConfig({
     env: {
@@ -36,7 +37,7 @@ module.exports = function(grunt) {
       },
       clientTest: {
         files: ['client/{app,test}/**/*.js'],
-        tasks: ['newer:jshint:client']
+        tasks: ['newer:jshint:client', 'karma']
       },
       livereload: {
         // options: {
@@ -47,6 +48,12 @@ module.exports = function(grunt) {
           'server/public/styles/{,*/}*.css',
           'server/public/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
         ]
+      }
+    },
+    karma: {
+      unit: {
+        configFile: 'client/test/karma.conf.js',
+        singleRun: true
       }
     },
     jshint: {
