@@ -30,12 +30,13 @@ module.exports = function(grunt) {
       }
     },
     watch: {
-      js: {
+      serverTest: {
         files: ['server/**/*.js'],
-        tasks: ['newer:jshint:all', 'sync', 'cafemocha:test'],
-        options: {
-          // livereload: '<%= connect.options.livereload %>'
-        }
+        tasks: ['newer:jshint:server', 'sync', 'cafemocha:test']
+      },
+      clientTest: {
+        files: ['client/{app,test}/**/*.js'],
+        tasks: ['newer:jshint:client']
       },
       livereload: {
         // options: {
@@ -52,6 +53,18 @@ module.exports = function(grunt) {
       options: {
         jshintrc: '.jshintrc',
         reporter: require('jshint-stylish')
+      },
+      client: {
+        src: [
+          'gruntfile.js',
+          'client/{app,test}/**/*.js'
+        ]
+      },
+      server: {
+        src: [
+          'gruntfile.js',
+          'server/**/*.js'
+        ]
       },
       all: {
         src: [
@@ -79,6 +92,6 @@ module.exports = function(grunt) {
     });
   });
   grunt.registerTask('test-once', [ 'env:test', 'sync', 'cafemocha:test' ]);
-  grunt.registerTask('test', [ 'test-once', 'watch' ]);
+  grunt.registerTask('test', [ 'env:test', 'watch' ]);
   grunt.registerTask('serve', [ 'env:development' ]);
 };
