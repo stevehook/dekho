@@ -6,6 +6,8 @@
     "node": "0.10.x"
   },
   "scripts": {
+    "postinstall": "npm run build",
+    "build": "grunt build",
     "start": "node server/app.js"
   },
   "dependencies": {
