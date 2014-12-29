@@ -16,13 +16,13 @@
     "host": "127.0.0.1",
     "dialect": "postgres",
     "define": {
-      "underscored": true
+      "underscored": false
     }
   },
   "production": {
     "use_env_variable": "DATABASE_URL",
     "define": {
-      "underscored": true
+      "underscored": false
     }
   }
 }
