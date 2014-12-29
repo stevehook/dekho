@@ -22,7 +22,7 @@ app.set('port', process.env.PORT || 4000);
 // Environment specific config
 // TODO: Move this to a separate file
 var config = {
-  env: process.env.NODE_ENV,
+  env: process.env.NODE_ENV || 'development',
   root: path.normalize(__dirname + '/..')
 };
 var env = config.env;
@@ -37,7 +37,6 @@ if ('development' === env || 'test' === env) {
 }
 
 app.get('/', function(request, response) {
-  console.log(path.join(config.root, 'client') + '/index.html');
   response.sendFile(path.join(config.root, 'client') + '/index.html');
 });
 app.get('/decks', authenticate, decks.index);
