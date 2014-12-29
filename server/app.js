@@ -37,7 +37,7 @@ if ('development' === env || 'test' === env) {
 }
 
 app.get('/', function(request, response) {
-  response.sendFile(path.join(config.root, 'client') + '/index.html');
+  response.sendFile(path.join(config.root, 'client') + '/app/index.html');
 });
 app.get('/decks', authenticate, decks.index);
 app.post('/decks', authenticate, decks.create);
