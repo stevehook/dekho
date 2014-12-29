@@ -98,7 +98,7 @@ module.exports = function(grunt) {
       done();
     });
   });
-  grunt.registerTask('test-once', [ 'env:test', 'sync', 'cafemocha:test' ]);
+  grunt.registerTask('test-once', [ 'env:test', 'sync', 'cafemocha:test', 'karma' ]);
   grunt.registerTask('test', [ 'env:test', 'watch' ]);
   grunt.registerTask('serve', [ 'env:development' ]);
 };
