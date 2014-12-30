@@ -33,7 +33,11 @@ if ('development' === env || 'test' === env) {
   app.set('appPath', 'client');
   // app.use(errorHandler()); // Error handler - has to be last
 } else if ('production' === env) {
-  // TODO:
+  console.log(path.join(config.root, 'server/public'));
+  app.use(express.static(path.join(config.root, 'server/public')));
+    // app.use(favicon(path.join(config.root, 'public', 'favicon.ico')));
+    // app.use(express.static(path.join(config.root, 'public')));
+    // app.set('appPath', config.root + '/public');
 }
 
 app.get('/', function(request, response) {
