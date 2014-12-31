@@ -16,6 +16,7 @@ module.exports = function(grunt) {
 
   // Configurable paths for the application
   var appConfig = {
+    client: 'client',
     app: require('./bower.json').appPath || 'client/app',
     dist: './server/public'
   };
@@ -148,34 +149,49 @@ module.exports = function(grunt) {
       }
     },
 
-    // Compiles Sass to CSS and generates necessary files if requested
-    compass: {
-      options: {
-        sassDir: '<%= yeoman.app %>/styles',
-        cssDir: '.tmp/styles',
-        generatedImagesDir: '.tmp/images/generated',
-        imagesDir: '<%= yeoman.app %>/images',
-        javascriptsDir: '<%= yeoman.app %>/scripts',
-        fontsDir: '<%= yeoman.app %>/styles/fonts',
-        importPath: './client/bower_components',
-        httpImagesPath: '/images',
-        httpGeneratedImagesPath: '/images/generated',
-        httpFontsPath: '/styles/fonts',
-        relativeAssets: false,
-        assetCacheBuster: false,
-        raw: 'Sass::Script::Number.precision = 10\n'
-      },
-      dist: {
-        options: {
-          generatedImagesDir: '<%= yeoman.dist %>/images/generated'
-        }
-      },
+    sass: {
       server: {
         options: {
-          debugInfo: true
+          loadPath: [
+            '<%= yeoman.client %>/bower_components',
+            '<%= yeoman.client %>/app'
+          ],
+          compass: false
+        },
+        files: {
+          '<%= yeoman.dist %>/styles/main.css' : '<%= yeoman.client %>/app/styles/main.scss'
         }
       }
     },
+
+    // Compiles Sass to CSS and generates necessary files if requested
+    // compass: {
+    //   options: {
+    //     sassDir: '<%= yeoman.app %>/styles',
+    //     cssDir: '.tmp/styles',
+    //     generatedImagesDir: '.tmp/images/generated',
+    //     imagesDir: '<%= yeoman.app %>/images',
+    //     javascriptsDir: '<%= yeoman.app %>/scripts',
+    //     fontsDir: '<%= yeoman.app %>/styles/fonts',
+    //     importPath: './client/bower_components',
+    //     httpImagesPath: '/images',
+    //     httpGeneratedImagesPath: '/images/generated',
+    //     httpFontsPath: '/styles/fonts',
+    //     relativeAssets: false,
+    //     assetCacheBuster: false,
+    //     raw: 'Sass::Script::Number.precision = 10\n'
+    //   },
+    //   dist: {
+    //     options: {
+    //       generatedImagesDir: '<%= yeoman.dist %>/images/generated'
+    //     }
+    //   },
+    //   server: {
+    //     options: {
+    //       debugInfo: true
+    //     }
+    //   }
+    // },
 
     // Renames files for browser caching purposes
     filerev: {
@@ -340,13 +356,10 @@ module.exports = function(grunt) {
     // Run some tasks in parallel to speed up the build process
     concurrent: {
       server: [
-        'compass:server'
       ],
       test: [
-        'compass'
       ],
       dist: [
-        'compass:dist',
         'imagemin',
         'svgmin'
       ]
@@ -369,6 +382,7 @@ module.exports = function(grunt) {
     'wiredep',
     'useminPrepare',
     'concurrent:dist',
+    'sass',
     'autoprefixer',
     'concat',
     'ngAnnotate',
