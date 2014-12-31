@@ -6,7 +6,8 @@
     "node": "0.10.x"
   },
   "scripts": {
-    "start": "node server/app.js"
+    "start": "node server/app.js",
+    "postinstall": "bower install --config.interactive=false && grunt build"
   },
   "dependencies": {
     "bcrypt": "~0.8.0",
