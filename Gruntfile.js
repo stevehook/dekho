@@ -350,7 +350,7 @@ module.exports = function(grunt) {
         'imagemin',
         'svgmin'
       ]
-    },
+    }
   });
 
   grunt.registerTask('sync', 'uses sequelize to setup the database schema', function() {
@@ -380,4 +380,5 @@ module.exports = function(grunt) {
     'usemin',
     'htmlmin'
   ]);
+  grunt.registerTask('heroku', []);
 };
