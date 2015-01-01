@@ -85,7 +85,8 @@ module.exports = function(grunt) {
       server: {
         src: [
           'gruntfile.js',
-          'server/**/*.js'
+          'server/**/*.js',
+          '!server/public/**/*.js'
         ]
       },
       all: {
