@@ -24,6 +24,16 @@ module.exports = function(grunt) {
   grunt.initConfig({
     yeoman: appConfig,
 
+    express: {
+      options: {
+        port: process.env.PORT || 4000,
+        script: 'server/app.js',
+      },
+      dev: {
+        options: {}
+      }
+    },
+
     env: {
       test: {
         NODE_ENV: 'test',
@@ -63,6 +73,16 @@ module.exports = function(grunt) {
           'server/public/styles/{,*/}*.css',
           'server/public/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
         ]
+      },
+      express: {
+        files: [
+          'server/**/*.{js,json}'
+        ],
+        tasks: ['express:dev', 'wait'],
+        options: {
+          livereload: true,
+          nospawn: true //Without this option specified express won't be reloaded
+        }
       }
     },
     karma: {
@@ -367,6 +387,21 @@ module.exports = function(grunt) {
     }
   });
 
+  grunt.registerTask('wait', function () {
+    grunt.log.ok('Waiting for server reload...');
+
+    var done = this.async();
+
+    setTimeout(function () {
+      grunt.log.writeln('Done waiting!');
+      done();
+    }, 1500);
+  });
+
+  grunt.registerTask('express-keepalive', 'Keep grunt running', function() {
+    this.async();
+  });
+
   grunt.registerTask('sync', 'uses sequelize to setup the database schema', function() {
     var db = require('./server/models');
     var done = this.async();
@@ -377,7 +412,12 @@ module.exports = function(grunt) {
   });
   grunt.registerTask('test-once', [ 'env:test', 'sync', 'cafemocha:test', 'karma' ]);
   grunt.registerTask('test', [ 'env:test', 'watch' ]);
-  grunt.registerTask('serve', [ 'env:development' ]);
+  grunt.registerTask('serve', [
+    'env:development',
+    'express:dev',
+    'wait',
+    'express-keepalive'
+  ]);
   grunt.registerTask('build', [
     'clean:dist',
     'wiredep',

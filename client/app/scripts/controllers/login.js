@@ -8,16 +8,16 @@ angular.module('dekho')
     logoutSuccess: 'logout-success',
     logoutFailed: 'logout-failed'
   })
-  .controller('Login', function ($scope, $rootScope, Authentication, AUTH_EVENTS, $location) {
+  .controller('Login', function($scope, $rootScope, Authentication, AUTH_EVENTS, $location) {
     $scope.credentials = {
       email: ''
     };
-    $scope.isLoggedIn = function () {
+    $scope.isLoggedIn = function() {
       return Authentication.isLoggedIn();
     };
-    $scope.login = function (credentials) {
+    $scope.login = function(credentials) {
       this.credentials = credentials;
-      Authentication.login({ credentials: credentials }).then(function (user) {
+      Authentication.login(credentials).then(function (user) {
         $rootScope.$broadcast('auth', AUTH_EVENTS.loginSuccess);
         $scope.currentUser = user;
         $location.path('/');

@@ -12,7 +12,7 @@ angular
     $stateProvider.state('login', {
       url: '/login',
       templateUrl: 'app/views/login.html',
-      controller: 'LoginCtrl'
+      controller: 'Login'
     });
   });
 
