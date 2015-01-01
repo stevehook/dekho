@@ -73,26 +73,26 @@ describe('Login controller', function () {
       });
     });
 
-  //   describe('with invalid credentials', function() {
-  //     beforeEach(function() {
-  //       sandbox.stub(authService, 'login', function() {
-  //         var defer = q.defer();
-  //         defer.reject();
-  //         return defer.promise;
-  //       });
-  //     });
+    describe('with invalid credentials', function() {
+      beforeEach(function() {
+        sandbox.stub(authService, 'login', function() {
+          var defer = q.defer();
+          defer.reject();
+          return defer.promise;
+        });
+      });
 
-  //     it('does not set the current user', function() {
-  //       scope.login(credentials);
-  //       rootScope.$apply();
-  //       expect(scope.currentUser).not.toBeDefined();
-  //     });
+      it('does not set the current user', function() {
+        scope.login(credentials);
+        rootScope.$apply();
+        expect(scope.currentUser).not.toBeDefined();
+      });
 
-  //     it('broadcasts the loginFailed event', function() {
-  //       scope.login(credentials);
-  //       rootScope.$apply();
-  //       expect(rootScope.$broadcast.calledWith('auth', 'login-failed')).toEqual(true);
-  //     });
-  //   });
+      it('broadcasts the loginFailed event', function() {
+        scope.login(credentials);
+        rootScope.$apply();
+        expect(rootScope.$broadcast.calledWith('auth', 'login-failed')).toEqual(true);
+      });
+    });
   });
 });
