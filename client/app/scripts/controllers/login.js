@@ -8,22 +8,21 @@ angular.module('dekho')
     logoutSuccess: 'logout-success',
     logoutFailed: 'logout-failed'
   })
-  .controller('LoginCtrl', function ($scope) {//$rootScope, $location, AUTH_EVENTS) {
+  .controller('Login', function ($scope, $rootScope, Authentication, AUTH_EVENTS, $location) {
     $scope.credentials = {
       email: ''
     };
     $scope.isLoggedIn = function () {
-      return false;
-      // return AuthenticationService.isLoggedIn();
+      return Authentication.isLoggedIn();
     };
     $scope.login = function (credentials) {
       this.credentials = credentials;
-      // AuthenticationService.login({ credentials: credentials }).then(function (user) {
-      //   $rootScope.$broadcast('auth', AUTH_EVENTS.loginSuccess);
-      //   $scope.currentUser = user;
-      //   $location.path('/');
-      // }, function () {
-      //   $rootScope.$broadcast('auth', AUTH_EVENTS.loginFailed);
-      // });
+      Authentication.login({ credentials: credentials }).then(function (user) {
+        $rootScope.$broadcast('auth', AUTH_EVENTS.loginSuccess);
+        $scope.currentUser = user;
+        $location.path('/');
+      }, function () {
+        $rootScope.$broadcast('auth', AUTH_EVENTS.loginFailed);
+      });
     };
   });
