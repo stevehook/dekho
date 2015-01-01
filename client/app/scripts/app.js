@@ -4,5 +4,15 @@ angular
   .module('dekho', [
     'ngCookies',
     'ngResource',
-    'ngSanitize'
-  ]);
+    'ngSanitize',
+    'ui.router'
+  ])
+  .config(function ($stateProvider) {
+    // $urlRouterProvider.otherwise('/login');
+    $stateProvider.state('login', {
+      url: '/login',
+      templateUrl: 'app/views/login.html',
+      controller: 'Login'
+    });
+  });
+

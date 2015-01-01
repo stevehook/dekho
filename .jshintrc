@@ -19,13 +19,15 @@
   "trailing": true,
   "smarttabs": true,
   "globals": {
-    "expect": false,
+    "expect": true,
     "angular": false,
     "describe": false,
     "it": false,
     "before": false,
     "beforeEach": false,
     "after": false,
-    "afterEach": false
+    "afterEach": false,
+    "inject": false,
+    "sinon": false
   }
 }
