@@ -19,7 +19,7 @@ angular.module('dekho')
 
     this.logout = function () {
       return $http
-        .delete('/logout')
+        .post('/logout')
         .then(function (res) {
           self.loggedIn = false;
           return res.data;

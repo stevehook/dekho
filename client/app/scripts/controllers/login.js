@@ -25,4 +25,13 @@ angular.module('dekho')
         $rootScope.$broadcast('auth', AUTH_EVENTS.loginFailed);
       });
     };
+    $scope.logout = function() {
+      Authentication.logout().then(function () {
+        $rootScope.$broadcast('auth', AUTH_EVENTS.logoutSuccess);
+        delete $scope.currentUser;
+        $location.path('/login');
+      }, function () {
+        $rootScope.$broadcast('auth', AUTH_EVENTS.logoutFailed);
+      });
+    };
   });
