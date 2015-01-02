@@ -46,6 +46,46 @@ describe('GET /login', function() {
   });
 });
 
+describe('POST /logout API', function() {
+  var user;
+
+  beforeEach(function(done) {
+    helpers.setupUser({}, function(err, newUser) {
+      user = newUser;
+      done();
+    });
+  });
+  afterEach(function(done) {
+    helpers.cleanUp(function() { done(); });
+  });
+
+  it('returns success when I provide a valid token', function(done) {
+    request(app)
+      .post('/logout')
+      .set('authorization', 'bearerToken foo')
+      .expect(200, done);
+  });
+
+  it('deletes the current token', function(done) {
+    request(app)
+      .post('/logout')
+      .set('authorization', 'bearerToken foo')
+      .end(function() {
+        db.Token.count({ where: { userId: user.id } }).then(function(count) {
+          expect(count).to.equal(0);
+          done();
+        });
+      });
+  });
+
+  it('returns 403 when I do not provide a valid token', function(done) {
+    request(app)
+      .post('/logout')
+      .set('authorization', 'bearerToken bar')
+      .expect(403, done);
+  });
+});
+
 describe('POST /login API', function() {
   var userFixture = { email: 'bob@example.com', name: 'Bob Roberts' };
   beforeEach(function(done) {

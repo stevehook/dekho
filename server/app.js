@@ -47,6 +47,7 @@ app.post('/decks', authenticate, decks.create);
 app.post('/decks/:id', authenticate, decks.update);
 app.delete('/decks/:id', authenticate, decks.destroy);
 app.post('/login', auth.login);
+app.post('/logout', authenticate, auth.logout);
 app.get('/login', authenticate, auth.show);
 
 http.createServer(app).listen(app.get('port'), function() {

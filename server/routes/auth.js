@@ -33,6 +33,18 @@ var auth = {
     });
   },
 
+  logout: function(request, response) {
+    db.Token.findOne({ where: { token: request.token } }).then(function(token) {
+      if (token) {
+        token.destroy().then(function() {
+          response.status(200).json({});
+        });
+      } else {
+        response.status(404).json({});
+      }
+    });
+  },
+
   show: function(request, response) {
     response.status(200).json({
       name: request.currentUser.name,
