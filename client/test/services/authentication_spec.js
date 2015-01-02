@@ -34,25 +34,27 @@ describe('Authentication Service', function () {
     }));
   });
 
-  // describe('logout', function () {
-  //   var data;
+  describe('logout', function () {
+    var data;
 
-  //   beforeEach(inject(function(AuthenticationService) {
-  //     $httpBackend.when('DELETE', '/api/sessions').respond(200, {});
-  //     AuthenticationService.loggedIn = true;
-  //     AuthenticationService.logout()
-  //       .then(function(res) { data = res; });
-  //     $httpBackend.flush();
-  //   }));
+    beforeEach(inject(function(Authentication) {
+      $httpBackend.when('POST', '/logout').respond(200, {});
+      Authentication.loggedIn = true;
+      Authentication.logout()
+        .then(function(res) { data = res; });
+      $httpBackend.flush();
+    }));
 
-  //   it('returns nothing', function() {
-  //     expect(data).toEqual({});
-  //   });
+    it('adds a bearer token to the outgoing request');
 
-  //   it('sets the state to logged out', inject(function(AuthenticationService) {
-  //     expect(AuthenticationService.isLoggedIn()).toEqual(false);
-  //   }));
-  // });
+    it('returns nothing', function() {
+      expect(data).toEqual({});
+    });
+
+    it('sets the state to logged out', inject(function(Authentication) {
+      expect(Authentication.isLoggedIn()).toEqual(false);
+    }));
+  });
 });
 
 
