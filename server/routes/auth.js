@@ -9,7 +9,7 @@ var auth = {
       if (user) {
         user.checkPassword(request.body.password, function(err, matched) {
           if (matched) {
-            var tokenString = jwt.sign(user, process.env.JWT_SECRET, { expiresInMinutes: 60 });
+            var tokenString = jwt.sign({ data: user, timestamp: new Date()}, process.env.JWT_SECRET, { expiresInMinutes: 60 });
             db.Token.create({
               userId: user.id,
               token: tokenString
