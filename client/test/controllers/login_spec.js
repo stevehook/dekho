@@ -43,6 +43,34 @@ describe('Login controller', function () {
     expect(scope.credentials.email).toEqual('');
   });
 
+  describe('Controller: Login#logout', function() {
+    beforeEach(function() {
+      scope.currentUser = { id: 123, email: 'bob@example.com', password: 'secret' };
+      sandbox.stub(authService, 'logout', function() {
+        var defer = q.defer();
+        defer.resolve(user);
+        return defer.promise;
+      });
+    });
+
+    it('calls the Authentication#login method and passes credentials', function () {
+      scope.logout();
+      expect(authService.logout.calledWith()).toEqual(true);
+    });
+
+    it('resets the current user', function() {
+      scope.logout();
+      rootScope.$apply();
+      expect(scope.currentUser).not.toBeDefined();
+    });
+
+    it('broadcasts the logoutSuccess event', function() {
+      scope.logout();
+      rootScope.$apply();
+      expect(rootScope.$broadcast.calledWith('auth', 'logout-success')).toEqual(true);
+    });
+  });
+
   describe('Controller: Login#login', function() {
     var credentials = { email: 'bob@example.com', password: 'secret' };
 
@@ -57,7 +85,7 @@ describe('Login controller', function () {
 
       it('calls the Authentication#login method and passes credentials', function () {
         scope.login(credentials);
-        expect(authService.login.calledWith({ credentials: credentials })).toEqual(true);
+        expect(authService.login.calledWith(credentials)).toEqual(true);
       });
 
       it('sets the current user', function() {

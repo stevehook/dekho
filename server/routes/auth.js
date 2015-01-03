@@ -9,7 +9,7 @@ var auth = {
       if (user) {
         user.checkPassword(request.body.password, function(err, matched) {
           if (matched) {
-            var tokenString = jwt.sign(user, process.env.JWT_SECRET, { expiresInMinutes: 60 });
+            var tokenString = jwt.sign({ data: user, timestamp: new Date()}, process.env.JWT_SECRET, { expiresInMinutes: 60 });
             db.Token.create({
               userId: user.id,
               token: tokenString
@@ -29,6 +29,18 @@ var auth = {
         });
       } else {
         response.status(403).json({ success: false, error: 'Login failed' });
+      }
+    });
+  },
+
+  logout: function(request, response) {
+    db.Token.findOne({ where: { token: request.token } }).then(function(token) {
+      if (token) {
+        token.destroy().then(function() {
+          response.status(200).json({});
+        });
+      } else {
+        response.status(404).json({});
       }
     });
   },

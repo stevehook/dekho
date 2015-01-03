@@ -26,6 +26,7 @@ module.exports = function(config) {
       'bower_components/angular-ui-router/release/angular-ui-router.js',
       'bower_components/sinonjs/sinon.js',
       'bower_components/jasmine-sinon/lib/jasmine-sinon.js',
+      'bower_components/ngstorage/ngstorage.js',
       'app/scripts/**/*.js',
       'test/**/*.js'
     ],
