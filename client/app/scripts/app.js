@@ -5,6 +5,7 @@ angular
     'ngCookies',
     'ngResource',
     'ngSanitize',
+    'ngStorage',
     'ui.router'
   ])
   .config(function ($stateProvider) {
