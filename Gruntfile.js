@@ -58,7 +58,7 @@ module.exports = function(grunt) {
     watch: {
       serverTest: {
         files: ['server/**/*.js'],
-        tasks: ['newer:jshint:server', 'sync', 'cafemocha:test']
+        tasks: ['newer:jshint:server', 'sync', 'env:test', 'cafemocha:test']
       },
       clientTest: {
         files: ['client/{app,test}/**/*.js'],
@@ -79,6 +79,7 @@ module.exports = function(grunt) {
           'server/**/*.{js,json}'
         ],
         tasks: [
+          'env:development',
           'express:dev',
           'wait'],
         options: {
