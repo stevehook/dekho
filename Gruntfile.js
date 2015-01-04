@@ -78,7 +78,9 @@ module.exports = function(grunt) {
         files: [
           'server/**/*.{js,json}'
         ],
-        tasks: [], // removed 'express:dev', 'wait' because currently running dev server separately
+        tasks: [
+          'express:dev',
+          'wait'],
         options: {
           livereload: true,
           nospawn: true //Without this option specified express won't be reloaded
@@ -410,13 +412,19 @@ module.exports = function(grunt) {
       done();
     });
   });
-  grunt.registerTask('test-once', [ 'env:test', 'sync', 'cafemocha:test', 'karma' ]);
-  grunt.registerTask('test', [ 'env:test', 'watch' ]);
+  grunt.registerTask('test', [ 'env:test', 'sync', 'cafemocha:test', 'karma' ]);
+  // grunt.registerTask('test', [ 'env:test', 'watch' ]);
   grunt.registerTask('serve', [
+    'clean:server',
     'env:development',
+    // 'injector:sass',
+    'concurrent:server',
+    // 'injector',
+    'wiredep',
+    'autoprefixer',
     'express:dev',
     'wait',
-    'express-keepalive'
+    'watch'
   ]);
   grunt.registerTask('build', [
     'clean:dist',

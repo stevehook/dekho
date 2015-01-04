@@ -17,7 +17,6 @@ app.use(function(req, res, next) {
   res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type,Authorization');
   next();
 });
-app.set('port', process.env.PORT || 4000);
 
 // Environment specific config
 // TODO: Move this to a separate file
@@ -26,6 +25,12 @@ var config = {
   root: path.normalize(__dirname + '/..')
 };
 var env = config.env;
+
+if (env === 'test') {
+  app.set('port', 4001);
+} else {
+  app.set('port', process.env.PORT || 4000);
+}
 
 if ('development' === env || 'test' === env) {
   // app.use(require('connect-livereload')());
