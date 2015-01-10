@@ -1,0 +1,9 @@
+<div class="form-container">
+  <ul>
+    <li ng-repeat='deck in decks'>{{deck.title}}</li>
+  </ul>
+  <form ng-submit='createDeck(newDeck)'>
+    <input type='name' class='form-control deck-title' placeholder='Enter the title of the slide deck' autofocus ng-model='newDeck.title'/>
+    <button type='submit' class='btn btn-default'>Create a new Slide Deck</button>
+  </form>
+</div>

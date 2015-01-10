@@ -10,11 +10,17 @@ angular
   ])
   .config(function ($stateProvider, $httpProvider) {
     // $urlRouterProvider.otherwise('/login');
-    $stateProvider.state('login', {
-      url: '/login',
-      templateUrl: 'app/views/login.html',
-      controller: 'Login'
-    });
+    $stateProvider
+      .state('login', {
+        url: '/login',
+        templateUrl: 'app/views/login.html',
+        controller: 'Login'
+      })
+      .state('home', {
+        url: '/',
+        templateUrl: 'app/views/home.html',
+        controller: 'Home'
+      });
 
     $httpProvider.interceptors.push(['$q', '$location', '$localStorage', function($q, $location, $localStorage) {
       return {
@@ -27,7 +33,7 @@ angular
         },
         'responseError': function(response) {
           if(response.status === 401 || response.status === 403) {
-            $location.path('/signin');
+            $location.path('/login');
           }
           return $q.reject(response);
         }
