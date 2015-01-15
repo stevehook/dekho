@@ -13,6 +13,13 @@ You will need a couple of new Postgres databases:
     $ createdb --no-password dekho_development
     $ createdb --no-password dekho_test
 
+###Seed data
+
+Running the seeds.js script will create the test user, bob@example.com,
+with password secret, and some sample data.
+
+    $ node server/data/seeds.js
+
 ##Deployment
 
 In order to deploy to Heroku you either need to build the static assets
