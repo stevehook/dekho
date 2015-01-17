@@ -4,11 +4,11 @@ angular.module('dekho')
   .service('Authentication', function ($http, $localStorage) {
     var self = this;
     this.loggedIn = false;
-    this.isLoggedIn = function () {
+    this.isLoggedIn = function() {
       return this.loggedIn;
     };
 
-    this.login = function (credentials) {
+    this.login = function(credentials) {
       return $http
         .post('/login', credentials)
         .then(function (res) {
@@ -18,7 +18,7 @@ angular.module('dekho')
         });
     };
 
-    this.logout = function () {
+    this.logout = function() {
       return $http
         .post('/logout')
         .then(function (res) {
@@ -27,6 +27,4 @@ angular.module('dekho')
           return res.data;
         });
     };
-
-    //TODO: method to verify that the user is logged in
   });

@@ -3,8 +3,8 @@
 A simple app for storing online presentations.
 
 The back-end is an API server implemented in Node.js on a Postgresql
-database. The front-end...
-
+database. The front-end is a single-page application  written in
+Angularjs.
 
 ##Setting up development environment
 
@@ -31,3 +31,11 @@ option because I had trouble running `grunt build` (specifically the
 various buildpacks). To keep the `master` branch clean builds are done in
 a `build` branch and pushed from there with a modified `.gitignore` to
 include the files built in `server/public`.
+
+##TODO
+
+ - [ ] redirect to login form when the user tries to access an authenticated route
+ - [ ] style the login page properly
+ - [ ] add a login/logout menu bar
+ - [ ] home controller should pull collection of decks from the server
+ - [ ] switch to 'as controller' style

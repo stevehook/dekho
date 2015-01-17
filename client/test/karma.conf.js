@@ -28,8 +28,19 @@ module.exports = function(config) {
       'bower_components/jasmine-sinon/lib/jasmine-sinon.js',
       'bower_components/ngstorage/ngstorage.js',
       'app/scripts/**/*.js',
+      'app/views/**/*.html',
       'test/**/*.js'
     ],
+
+    preprocessors: {
+      '**/*.html': ['ng-html2js']
+    },
+
+    ngHtml2JsPreprocessor: {
+      // strip this from the file path
+      stripPrefix: 'app/',
+      moduleName: 'dekho'
+    },
 
     // list of files / patterns to exclude
     exclude: [],
@@ -52,7 +63,8 @@ module.exports = function(config) {
     // Which plugins to enable
     plugins: [
       'karma-phantomjs-launcher',
-      'karma-jasmine'
+      'karma-jasmine',
+      'karma-ng-html2js-preprocessor'
     ],
 
     // Continuous Integration mode

@@ -9,7 +9,7 @@ angular
     'ui.router'
   ])
   .config(function ($stateProvider, $httpProvider) {
-    // $urlRouterProvider.otherwise('/login');
+    // $urlRouterProvider.otherwise('home');
     $stateProvider
       .state('login', {
         url: '/login',
@@ -19,7 +19,8 @@ angular
       .state('home', {
         url: '/',
         templateUrl: 'app/views/home.html',
-        controller: 'Home'
+        controller: 'Home',
+        authenticate: true
       });
 
     $httpProvider.interceptors.push(['$q', '$location', '$localStorage', function($q, $location, $localStorage) {
@@ -39,5 +40,13 @@ angular
         }
       };
     }]);
+  })
+  .run(function($rootScope, $state, Authentication) {
+    $rootScope.$on('$stateChangeStart', function(event, toState){
+      if (toState.authenticate && !Authentication.isLoggedIn()){
+        $state.transitionTo('login');
+        event.preventDefault();
+      }
+    });
   });
 
