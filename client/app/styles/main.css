@@ -1,4 +1,14 @@
+$icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/bootstrap/";
+// bower:scss
+@import "bootstrap-sass-official/assets/stylesheets/bootstrap.scss";
+// endbower
+
 html {
   font-size: 12pt;
+}
+
+.login-form input {
+  width: 300px;
+  margin-bottom: 4px;
 }
 
