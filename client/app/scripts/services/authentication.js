@@ -3,9 +3,12 @@
 angular.module('dekho')
   .service('Authentication', function ($http, $localStorage) {
     var self = this;
-    this.loggedIn = false;
     this.isLoggedIn = function() {
-      return this.loggedIn;
+      if (self.loggedIn) {
+        return true;
+      } else {
+        return !!$localStorage.token;
+      }
     };
 
     this.login = function(credentials) {

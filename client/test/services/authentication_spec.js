@@ -64,6 +64,18 @@ describe('Authentication Service', function () {
       expect($localStorage.token).not.toBeDefined();
     }));
   });
+
+  describe('isLoggedIn', function () {
+    it('returns true when a token is defined in local storage', inject(function(Authentication, $localStorage) {
+      $localStorage.token = 'foobar';
+      expect(Authentication.isLoggedIn()).toEqual(true);
+    }));
+
+    it('returns false when a token is NOT defined in local storage', inject(function(Authentication, $localStorage) {
+      delete $localStorage.token;
+      expect(Authentication.isLoggedIn()).toEqual(false);
+    }));
+  });
 });
 
 

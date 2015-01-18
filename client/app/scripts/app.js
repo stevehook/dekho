@@ -9,7 +9,7 @@ angular
     'ui.router'
   ])
   .config(function ($stateProvider, $httpProvider) {
-    // $urlRouterProvider.otherwise('home');
+    // $urlRouterProvider.otherwise('/');
     $stateProvider
       .state('login', {
         url: '/login',
@@ -34,6 +34,7 @@ angular
         },
         'responseError': function(response) {
           if(response.status === 401 || response.status === 403) {
+            console.log('redirecting to login because auth failed...');
             $location.path('/login');
           }
           return $q.reject(response);
@@ -44,6 +45,7 @@ angular
   .run(function($rootScope, $state, Authentication) {
     $rootScope.$on('$stateChangeStart', function(event, toState){
       if (toState.authenticate && !Authentication.isLoggedIn()){
+        console.log('redirecting to login because not logged in...');
         $state.transitionTo('login');
         event.preventDefault();
       }

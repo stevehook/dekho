@@ -34,6 +34,8 @@ include the files built in `server/public`.
 
 ##TODO
 
+ - [x] store auth token in local storage and re-establish logged state
+     after page refresh.
  - [ ] redirect to login form when the user tries to access an authenticated route
  - [ ] style the login page properly
  - [ ] add a login/logout menu bar
