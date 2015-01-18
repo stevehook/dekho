@@ -7,8 +7,41 @@ html {
   font-size: 12pt;
 }
 
-.login-form input {
+.login-form input, .deck-form input {
   width: 300px;
   margin-bottom: 4px;
+}
+
+.deck-form {
+  margin-top: 15px;
+}
+
+ul.deck-list {
+  list-style-type: none;
+  position: relative;
+  padding: 0;
+  margin: 0;
+}
+
+ul.deck-list li {
+  position: relative;
+  padding: 10px 5px;
+  margin: 0;
+  font-size: 125%;
+  border-bottom: solid 1px #DDD;
+}
+
+ul.deck-list li h3 {
+  font-size: 120%;
+  margin-top: 10px;
+}
+
+ul.deck-list li p {
+  font-size: 90%;
+  color: #888;
+}
+
+ul.deck-list li:first-child {
+  border-top: solid 1px #DDD;
 }
 

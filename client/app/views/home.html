@@ -1,8 +1,11 @@
-<div class="form-container">
-  <ul>
-    <li ng-repeat='deck in decks'>{{deck.title}}</li>
+<div class='form-container'>
+  <ul class='deck-list'>
+    <li ng-repeat='deck in decks'>
+    <h3>{{deck.title}}</h3>
+    <p>{{deck.synopsis}}</p>
+   </li>
   </ul>
-  <form ng-submit='createDeck(newDeck)'>
+  <form ng-submit='createDeck(newDeck)' class='deck-form'>
     <input type='name' class='form-control deck-title' placeholder='Enter the title of the slide deck' autofocus ng-model='newDeck.title'/>
     <button type='submit' class='btn btn-default'>Create a new Slide Deck</button>
   </form>
