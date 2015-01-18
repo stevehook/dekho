@@ -16,7 +16,7 @@ describe('Login controller', function () {
   beforeEach(module('dekho'));
 
   // Initialize the controller and a mock scope
-  beforeEach(inject(function ($controller, $rootScope, Authentication, AUTH_EVENTS, $q, $state) {
+  beforeEach(inject(function($controller, $rootScope, Authentication, AUTH_EVENTS, $q, $state) {
     sandbox = sinon.sandbox.create();
     rootScope = $rootScope;
     q = $q;

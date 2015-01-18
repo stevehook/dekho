@@ -31,9 +31,15 @@
     <!-- Add your site or application content here -->
     <div class='container'>
       <div class='header'>
+        <div ng-controller='NavBarCtrl'>
+          <ul class='nav nav-pills pull-right' ng-if='isLoggedIn()'>
+            <li ng-class="{active: routeIs('/')}"><a ng-href="#">Home</a></li>
+            <li ng-class="{active: routeIs('/about')}"><a ng-href="#/about">About</a></li>
+            <li><a href='#' ng-click='logout()'>Logout</a></li>
+          </ul>
+        </div>
         <h3 class='text-muted'>Dekho</h3>
       </div>
-
       <div ui-view=''></div>
 
       <div class='footer'>
@@ -87,6 +93,7 @@
           <!-- injector:js -->
           <script src="app/scripts/controllers/login.js"></script>
           <script src="app/scripts/controllers/home.js"></script>
+          <script src="app/scripts/controllers/navBar.js"></script>
           <script src="app/scripts/services/authentication.js"></script>
           <!-- <script src="app/main/main.js"></script> -->
           <!-- <script src="components/navbar/navbar.controller.js"></script> -->
