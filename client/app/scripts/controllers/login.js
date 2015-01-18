@@ -8,7 +8,7 @@ angular.module('dekho')
     logoutSuccess: 'logout-success',
     logoutFailed: 'logout-failed'
   })
-  .controller('Login', function($scope, $rootScope, Authentication, AUTH_EVENTS) {
+  .controller('Login', function($scope, $rootScope, Authentication, AUTH_EVENTS, $state) {
     $scope.credentials = {
       email: ''
     };
@@ -20,7 +20,7 @@ angular.module('dekho')
       Authentication.login(credentials).then(function (user) {
         $rootScope.$broadcast('auth', AUTH_EVENTS.loginSuccess);
         $scope.currentUser = user;
-        // $state.go('home');
+        $state.go('home');
       }, function () {
         $rootScope.$broadcast('auth', AUTH_EVENTS.loginFailed);
       });
@@ -29,7 +29,7 @@ angular.module('dekho')
       Authentication.logout().then(function () {
         $rootScope.$broadcast('auth', AUTH_EVENTS.logoutSuccess);
         delete $scope.currentUser;
-        // $state.go('login');
+        $state.go('login');
       }, function () {
         $rootScope.$broadcast('auth', AUTH_EVENTS.logoutFailed);
       });

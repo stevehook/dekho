@@ -8,17 +8,19 @@ describe('Login controller', function () {
     authEvents,
     authService,
     sandbox,
-    q;
+    q,
+    state;
   var user = { id: 123, name: 'Bob Roberts', email: 'bob@example.com' };
 
   // load the controller's module
   beforeEach(module('dekho'));
 
   // Initialize the controller and a mock scope
-  beforeEach(inject(function ($controller, $rootScope, Authentication, AUTH_EVENTS, $q) {
+  beforeEach(inject(function ($controller, $rootScope, Authentication, AUTH_EVENTS, $q, $state) {
     sandbox = sinon.sandbox.create();
     rootScope = $rootScope;
     q = $q;
+    state = $state;
     authService = {
       login: function() {},
       logout: function() {},
@@ -32,6 +34,7 @@ describe('Login controller', function () {
 
   beforeEach(function() {
     sandbox.spy(rootScope, '$broadcast');
+    sandbox.stub(state, 'go', function() {});
   });
 
   afterEach(function () {
@@ -69,6 +72,12 @@ describe('Login controller', function () {
       rootScope.$apply();
       expect(rootScope.$broadcast.calledWith('auth', 'logout-success')).toEqual(true);
     });
+
+    it('sets the path to /login', function() {
+      scope.logout();
+      rootScope.$apply();
+      expect(state.go.calledWith('login')).toEqual(true);
+    });
   });
 
   describe('Controller: Login#login', function() {
@@ -99,6 +108,12 @@ describe('Login controller', function () {
         rootScope.$apply();
         expect(rootScope.$broadcast.calledWith('auth', 'login-success')).toEqual(true);
       });
+
+      it('sets the path to /', function() {
+        scope.login(credentials);
+        rootScope.$apply();
+        expect(state.go.calledWith('home')).toEqual(true);
+      });
     });
 
     describe('with invalid credentials', function() {
@@ -120,6 +135,12 @@ describe('Login controller', function () {
         scope.login(credentials);
         rootScope.$apply();
         expect(rootScope.$broadcast.calledWith('auth', 'login-failed')).toEqual(true);
+      });
+
+      it('does not set the path to /', function() {
+        scope.login(credentials);
+        rootScope.$apply();
+        expect(state.go.calledWith('home')).toEqual(false);
       });
     });
   });
