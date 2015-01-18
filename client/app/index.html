@@ -39,6 +39,10 @@
           </ul>
         </div>
         <h3 class='text-muted'>Dekho</h3>
+        <div ng-controller='NotificationCtrl' class='notification-bar'>
+          <div ng-if='showNotification()' class='alert alert-{{notificationType()}}' role='alert'>
+            {{notificationText()}}</div>
+        </div>
       </div>
       <div ui-view=''></div>
 
@@ -94,6 +98,7 @@
           <script src="app/scripts/controllers/login.js"></script>
           <script src="app/scripts/controllers/home.js"></script>
           <script src="app/scripts/controllers/navBar.js"></script>
+          <script src="app/scripts/controllers/notification.js"></script>
           <script src="app/scripts/services/authentication.js"></script>
           <!-- <script src="app/main/main.js"></script> -->
           <!-- <script src="components/navbar/navbar.controller.js"></script> -->
