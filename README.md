@@ -8,6 +8,7 @@ Angularjs.
 
 ##Setting up development environment
 
+###Database
 You will need a couple of new Postgres databases:
 
     $ createdb --no-password dekho_development
@@ -19,6 +20,17 @@ Running the seeds.js script will create the test user, bob@example.com,
 with password secret, and some sample data.
 
     $ node server/data/seeds.js
+
+###Grunt tasks
+
+To run all tests once:
+
+    $ grunt test
+
+To run the application in a development environment, watch for code
+changes and run tests continuously:
+
+    $ grunt serve
 
 ##Deployment
 
@@ -39,6 +51,6 @@ include the files built in `server/public`.
  - [x] redirect to login form when the user tries to access an authenticated route
  - [x] redirect to home page after successful login and to login page after logout
  - [x] style the login page properly
- - [ ] add a login/logout menu bar
+ - [x] add a login/logout menu bar
  - [ ] home controller should pull collection of decks from the server
  - [ ] switch to 'as controller' style
