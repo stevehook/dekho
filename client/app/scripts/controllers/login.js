@@ -6,7 +6,8 @@ angular.module('dekho')
     loginSuccess: 'login-success',
     loginFailed: 'login-failed',
     logoutSuccess: 'logout-success',
-    logoutFailed: 'logout-failed'
+    logoutFailed: 'logout-failed',
+    requestFailed: 'request-failed'
   })
   .controller('Login', function($scope, $rootScope, Authentication, AUTH_EVENTS, $state) {
     $scope.credentials = {

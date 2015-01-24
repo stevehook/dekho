@@ -1,8 +1,17 @@
 'use strict';
 
 angular.module('dekho')
-  .service('Authentication', function ($http, $localStorage) {
+  .service('Authentication', function ($http, $localStorage, $rootScope) {
     var self = this;
+
+    $rootScope.$on('auth', function(_, eventType){
+      if (eventType === 'request-failed') {
+        console.log('automatically logging out because a request failed authentication');
+        self.loggedIn = false;
+        delete $localStorage.token;
+      }
+    });
+
     this.isLoggedIn = function() {
       if (self.loggedIn) {
         return true;
@@ -29,10 +38,5 @@ angular.module('dekho')
           delete $localStorage.token;
           return res.data;
         });
-    };
-
-    this.notLoggedIn = function() {
-      self.loggedIn = false;
-      delete $localStorage.token;
     };
   });

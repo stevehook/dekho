@@ -5,7 +5,8 @@ angular.module('dekho')
     'login-success': { text: 'Login succeeded', type: 'info' },
     'login-failed': { text: 'Login failed', type: 'danger' },
     'logout-success': { text: 'Logout succeeded', type: 'info' },
-    'logout-failed': { text: 'Logout failed', type: 'danger' }
+    'logout-failed': { text: 'Logout failed', type: 'danger' },
+    'request-failed': { text: 'You need to log in again', type: 'danger' }
   })
   .constant('TASK_MESSAGES', {
     'create-success': { text: 'New task created', type: 'info' },
