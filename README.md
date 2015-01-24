@@ -52,5 +52,5 @@ include the files built in `server/public`.
  - [x] redirect to home page after successful login and to login page after logout
  - [x] style the login page properly
  - [x] add a login/logout menu bar
- - [ ] home controller should pull collection of decks from the server
+ - [x] home controller should pull collection of decks from the server
  - [ ] switch to 'as controller' style
