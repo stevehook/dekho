@@ -30,4 +30,9 @@ angular.module('dekho')
           return res.data;
         });
     };
+
+    this.notLoggedIn = function() {
+      self.loggedIn = false;
+      delete $localStorage.token;
+    };
   });
