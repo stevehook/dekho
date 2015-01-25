@@ -19,8 +19,11 @@ html {
   margin-bottom: 4px;
 }
 
+.input-fields {
+  margin-bottom: 15px;
+}
+
 .deck-form {
-  margin-top: 15px;
 }
 
 ul.deck-list {
