@@ -27,6 +27,9 @@ module.exports = function(config) {
       'bower_components/sinonjs/sinon.js',
       'bower_components/jasmine-sinon/lib/jasmine-sinon.js',
       'bower_components/ngstorage/ngstorage.js',
+      'bower_components/angular-animate/angular-animate.js',
+      'bower_components/angular-strap/dist/angular-strap.js',
+      'bower_components/angular-strap/dist/angular-strap.tpl.js',
       'app/scripts/**/*.js',
       'app/views/**/*.html',
       'test/**/*.js'

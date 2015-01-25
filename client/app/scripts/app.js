@@ -6,7 +6,9 @@ angular
     'ngResource',
     'ngSanitize',
     'ngStorage',
-    'ui.router'
+    'ui.router',
+    'ngAnimate',
+    'mgcrea.ngStrap.modal'
   ])
   .config(function ($stateProvider, $httpProvider) {
     // $urlRouterProvider.otherwise('/');
