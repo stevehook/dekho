@@ -3,10 +3,11 @@
 
 angular.module('dekho')
   .controller('Home', function($scope, $modal, Decks) {
+    $scope.newDeck = { title: '', synopsis: '' };
     Decks.index().then(function(result) {
       $scope.decks = result.data;
     });
-    $scope.newDeck = function() {
-      $modal({title: 'New Deck', contentTemplate: 'app/views/modals/newDeck.html', show: true});
+    $scope.createDeck = function() {
+      console.log($scope.newDeck);
     };
   });
