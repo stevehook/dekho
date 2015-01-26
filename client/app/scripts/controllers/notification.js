@@ -8,15 +8,15 @@ angular.module('dekho')
     'logout-failed': { text: 'Logout failed', type: 'danger' },
     'request-failed': { text: 'You need to log in again', type: 'danger' }
   })
-  .constant('TASK_MESSAGES', {
-    'create-success': { text: 'New task created', type: 'info' },
-    'create-failed': { text: 'Could not create new task', type: 'danger' },
-    'complete-success': { text: 'Task completed', type: 'info' },
-    'complete-failed': { text: 'Could not complete task', type: 'danger' },
-    'delete-success': { text: 'Task deleted', type: 'info' },
-    'delete-failed': { text: 'Could not delete task', type: 'danger' }
+  .constant('DECK_MESSAGES', {
+    'create-success': { text: 'New deck created', type: 'info' },
+    'create-failed': { text: 'Could not create new deck', type: 'danger' },
+    'complete-success': { text: 'Deck completed', type: 'info' },
+    'complete-failed': { text: 'Could not complete deck', type: 'danger' },
+    'delete-success': { text: 'Deck deleted', type: 'info' },
+    'delete-failed': { text: 'Could not delete deck', type: 'danger' }
   })
-  .controller('NotificationCtrl', function ($rootScope, $scope, AUTH_MESSAGES, TASK_MESSAGES) {
+  .controller('NotificationCtrl', function ($rootScope, $scope, AUTH_MESSAGES, DECK_MESSAGES) {
     $scope.show = false;
     $scope.text = '';
     $scope.type = '';
@@ -24,8 +24,8 @@ angular.module('dekho')
       var message = AUTH_MESSAGES[eventType];
       if (message) { $scope.setNotification(message.text, message.type); }
     });
-    $rootScope.$on('task', function(_, eventType){
-      var message = TASK_MESSAGES[eventType];
+    $rootScope.$on('deck', function(_, eventType){
+      var message = DECK_MESSAGES[eventType];
       if (message) { $scope.setNotification(message.text, message.type); }
     });
     $scope.setNotification = function(text, type) {
