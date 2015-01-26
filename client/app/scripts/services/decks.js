@@ -6,7 +6,7 @@ angular.module('dekho')
       return $http.get('/decks');
     };
     this.create = function(newDeck) {
-      $http.post('/decks', newDeck, { headers: { 'X-Http-Method-Override': 'PATCH' } }).
+      return $http.post('/decks', newDeck, { headers: { 'X-Http-Method-Override': 'PATCH' } }).
         success(function(deck) {
           $rootScope.$broadcast('deck', DECK_EVENTS.createSuccess, deck);
         }).
