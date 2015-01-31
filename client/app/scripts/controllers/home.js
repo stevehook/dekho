@@ -12,8 +12,8 @@ angular.module('dekho')
       $scope.decks = result.data;
     });
     $scope.createDeck = function() {
-      Decks.create($scope.newDeck).success(function(newDeck) {
-        $scope.decks.push(newDeck);
+      Decks.create($scope.newDeck).then(function(result) {
+        $scope.decks.push(result.data);
       });
     };
   });
