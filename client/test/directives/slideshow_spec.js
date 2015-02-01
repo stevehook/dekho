@@ -54,9 +54,12 @@ describe('slideshow', function() {
     });
 
     it('makes the first slide visible', function() {
+      expect(element.html()).toMatch(/<div[^<>]*visible[^<>]*>first slide content/);
     });
 
     it('hides the other slides', function() {
+      expect(element.html()).toMatch(/<div[^<>]*visible[^<>]*>second slide content/);
+      expect(element.html()).toMatch(/<div[^<>]*visible[^<>]*>third slide content/);
     });
   });
 });
