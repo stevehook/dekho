@@ -6,7 +6,9 @@ angular.module('dekho').directive('slideshow', function() {
     scope: {
       deck: '='
     },
-    template: '<div><h3>{{deck.title}}</h3></div>'
+    template: '<div><h3>{{deck.title}}</h3>' +
+              '<div ng-repeat="slide in deck.slides">{{slide.content}}</div>' +
+              '</div>'
   };
 });
 
