@@ -23,6 +23,12 @@ angular
         templateUrl: 'app/views/home.html',
         controller: 'Home',
         authenticate: true
+      })
+      .state('slideshow', {
+        url: '/decks/:id',
+        templateUrl: 'app/views/deck.html',
+        controller: 'Deck',
+        authenticate: true
       });
 
     $httpProvider.interceptors.push(['HttpInterceptor', function(HttpInterceptor) {

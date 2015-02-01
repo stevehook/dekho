@@ -10,6 +10,13 @@ var deckFixtures = [
       { title: 'Bower for beginners', synopsis: 'A short presentation about Bower' },
       { title: 'Node.js for beginners', synopsis: 'A short presentation about Node.js' }
     ];
+var nodeSlideFixtures = [
+      { index: 1, content: 'Node is all about asynchronous I/O' },
+      { index: 2, content: 'Asynchronous I/O is about not waiting for stuff' },
+      { index: 3, content: 'We have a lot of callbacks' },
+      { index: 4, content: 'Callbacks can be a pain' },
+      { index: 5, content: 'But its worth it' }
+];
 var user;
 
 async.series([
@@ -28,7 +35,15 @@ async.series([
     });
 
     db.Deck.bulkCreate(deckFixtures).then(function() { callback(null); });
-  }
+  },
+  function(callback) {
+    db.Deck.find({ where: {title: 'Node.js for beginners'} }).then(function(lastDeck) {
+      _.each(nodeSlideFixtures, function(slide) {
+        slide.deckId = lastDeck.id;
+      });
+      db.Slide.bulkCreate(nodeSlideFixtures).then(function() { callback(null); });
+    });
+  },
 ], function() {
   process.exit();
 });

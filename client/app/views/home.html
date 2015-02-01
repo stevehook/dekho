@@ -1,7 +1,7 @@
 <div class='form-container'>
   <ul class='deck-list'>
     <li ng-repeat='deck in decks'>
-    <h3>{{deck.title}}</h3>
+    <h3><a href='/#/decks/{{deck.id}}'>{{deck.title}}</a></h3>
     <p>{{deck.synopsis}}</p>
    </li>
   </ul>
