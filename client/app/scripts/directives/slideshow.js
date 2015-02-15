@@ -9,11 +9,13 @@ angular.module('dekho').directive('slideshow', function($window) {
     template: '<div class="slideshow">' +
               '<div ng-repeat="slide in deck.slides" ng-class="{visible: $first, slide: true}">{{slide.content}}</div>' +
               '<div class="footer">' +
+              '<div class="control-buttons">' +
               '<span class="glyphicon glyphicon-fast-backward" ng-click="showFirst()"></span>' +
               '<span class="glyphicon glyphicon-backward" ng-click="showPrevious()"></span>' +
-              '<span class="">{{currentSlide + 1}}/{{slideCount()}}</span>' +
+              '<span class="slide-count">{{currentSlide + 1}}/{{slideCount()}}</span>' +
               '<span class="glyphicon glyphicon-forward" ng-click="showNext()"></span>' +
               '<span class="glyphicon glyphicon-fast-forward" ng-click="showLast()"></span>' +
+              '</div>' +
               '<span class="glyphicon glyphicon-remove" ng-click="closeSlideshow()"></span>' +
               '</div>' +
               '</div>',

@@ -18,6 +18,28 @@
   background: rgba(255, 255, 255, 0.1)
 }
 
+.slideshow .footer .glyphicon, .slideshow .footer .slide-count {
+  line-height: 50px;
+  font-size: 150%;
+  color: rgba(255, 255, 255, 0.2);
+  margin: 0 0 0 5px;
+}
+
+.slideshow .footer .glyphicon-remove {
+  position: absolute;
+  right: 10px;
+}
+
+.slideshow .footer .control-buttons {
+  display: block;
+  width: 150px;
+  margin: 0 auto;
+}
+
+.slideshow .footer .glyphicon:hover {
+  color: rgba(255, 255, 255, 0.7);
+}
+
 .slide {
   display: none;
 }
