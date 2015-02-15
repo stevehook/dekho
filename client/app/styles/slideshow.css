@@ -4,8 +4,18 @@
   left: 0px;
   bottom: 0px;
   right: 0px;
-  background: #fff;
+  background: #000;
+  color: #fff;
   padding: 50px;
+}
+
+.slideshow .footer {
+  height: 50px;
+  position: fixed;
+  left: 0px;
+  bottom: 0px;
+  right: 0px;
+  background: rgba(255, 255, 255, 0.1)
 }
 
 .slide {
