@@ -53,4 +53,8 @@ include the files built in `server/public`.
  - [x] style the login page properly
  - [x] add a login/logout menu bar
  - [x] home controller should pull collection of decks from the server
+ - [ ] fetch slides from server in deck controller
+ - [ ] front-end for slide show with 'full screen' options
+ - [ ] use markdown for slides - store markdown, convert to HTML before rendering
  - [ ] switch to 'as controller' style
+ - [ ] build a slide editor...
