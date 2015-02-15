@@ -1,0 +1,17 @@
+.slideshow {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  bottom: 0px;
+  right: 0px;
+  background: #fff;
+  padding: 50px;
+}
+
+.slide {
+  display: none;
+}
+
+.visible {
+  display: block;
+}

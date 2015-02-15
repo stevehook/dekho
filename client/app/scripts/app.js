@@ -32,7 +32,7 @@ angular
       })
       .state('slideshow', {
         url: '/decks/:id/slideshow',
-        templateUrl: 'app/views//slideshow.html',
+        templateUrl: 'app/views/slideshow.html',
         controller: 'Slideshow',
         authenticate: true
       });
