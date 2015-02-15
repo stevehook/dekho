@@ -6,7 +6,7 @@ angular.module('dekho').directive('slideshow', function($window) {
     scope: {
       deck: '='
     },
-    template: '<div><h3>{{deck.title}}</h3>' +
+    template: '<div class="slideshow">' +
               '<div ng-repeat="slide in deck.slides" ng-class="{visible: $first, slide: true}">{{slide.content}}</div>' +
               '</div>',
     link: function(scope, elem) {

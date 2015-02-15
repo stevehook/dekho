@@ -24,10 +24,16 @@ angular
         controller: 'Home',
         authenticate: true
       })
-      .state('slideshow', {
+      .state('deck', {
         url: '/decks/:id',
         templateUrl: 'app/views/deck.html',
         controller: 'Deck',
+        authenticate: true
+      })
+      .state('slideshow', {
+        url: '/decks/:id/slideshow',
+        templateUrl: 'app/views//slideshow.html',
+        controller: 'Slideshow',
         authenticate: true
       });
 

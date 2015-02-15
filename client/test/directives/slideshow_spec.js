@@ -21,8 +21,8 @@ describe('slideshow', function() {
       $rootScope.$digest();
     });
 
-    it('shows the deck title', function() {
-      expect(element.html()).toContain('Go for gophers');
+    it('shows a message to say that there are no slides', function() {
+      // TODO:
     });
   });
 
@@ -41,10 +41,6 @@ describe('slideshow', function() {
       $rootScope.deck = deck;
       element = $compile('<slideshow deck="deck"></slideshow>')($rootScope);
       $rootScope.$digest();
-    });
-
-    it('shows the deck title', function() {
-      expect(element.html()).toContain('Go for gophers');
     });
 
     it('shows the individual slides', function() {
