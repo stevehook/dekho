@@ -29,7 +29,7 @@ angular.module('dekho').directive('slideshow', function($window) {
       };
 
       scope.slideCount = function() {
-        return scope.deck.slides.length;
+        return (scope.deck && scope.deck.slides) ? scope.deck.slides.length : 0;
       };
 
       scope.showFirst = function() {
