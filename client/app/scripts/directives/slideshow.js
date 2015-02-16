@@ -1,13 +1,13 @@
 'use strict';
 
-angular.module('dekho').directive('slideshow', function($window) {
+angular.module('dekho').directive('slideshow', function($window, MarkdownConverter) {
   return {
     restrict: 'E',
     scope: {
       deck: '='
     },
     template: '<div class="slideshow">' +
-              '<div ng-repeat="slide in deck.slides" ng-class="{visible: $first, slide: true}">{{slide.content}}</div>' +
+              '<div ng-repeat="slide in deck.slides" ng-class="{visible: $first, slide: true}" ng-bind-html="toHTML(slide.content)"></div>' +
               '<div class="footer">' +
               '<div class="control-buttons">' +
               '<span class="glyphicon glyphicon-fast-backward" ng-click="showFirst()"></span>' +
@@ -21,6 +21,10 @@ angular.module('dekho').directive('slideshow', function($window) {
               '</div>',
     link: function(scope, elem) {
       scope.currentSlide = 0;
+
+      scope.toHTML = function(markdownContent) {
+        return MarkdownConverter.toHTML(markdownContent);
+      };
 
       scope.setCurrentSlide = function(index) {
         angular.element(elem.find('.slide')[scope.currentSlide]).removeClass('visible');
